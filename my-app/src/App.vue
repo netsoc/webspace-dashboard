@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <ul>
-      <li v-for="(image, index) in images" :key="index">
+    <select name="Images">
+      <option v-for="(image, index) in images" :key="index">
         {{image.aliases[0].name}}
-      </li>
-    </ul>
+      </option>
+    </select>
   </div>
 </template>
 

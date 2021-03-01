@@ -1,33 +1,31 @@
 <template>
-    <div id="v-model-select" class="demo">
-        <h1>{{ msg }}</h1>
-        <select v-model="selected">
-            <option disabled value="">Please select one</option>
-            <option>A</option>
-            <option>B</option>
-            <option>C</option>
-        </select>
-        <span id="result">Selected: {{ selected }}</span>
-        <br><br>
-
-    
-    </div>
     <div id="TestRemote" class="demo">
       <h2>Test of Remote data</h2>
-      <button v-on:click="images">Attempt to force update:</button>
+
+      <div v-for="imageData in imagesList" :key = imageData.fingerprint class = "image-data">
+        <span>{{imageData.aliases[0].name}}</span>
+
+
+      </div>  
       <br><br>
-      <span id="result-2">Images: {{ imagesList }}</span>
+
+      <select v-model="imageChoosen">
+            <option disabled value="">Please select one</option>
+            <option v-for="imageData in imagesList" :key = imageData.fingerprint :value="imageData.aliases[0].name">
+              {{ imageData.aliases[0].name }}
+            </option>
+        </select>
+        <span id="result">Selected: {{ imageChoosen }}</span>
+        <br><br>
+
+      <br><br>
+      <!-- <span id="result-2">Images: {{ imagesList }}</span> -->
     </div>
 </template>
 <script>
-  //import Vue from 'vue'
-  //import VueDynamicForms from '@asigloo/vue-dynamic-forms';
-  //import { DynamicForm } from '@asigloo/vue-dynamic-forms';
-  import { createApp } from 'vue'
-  //dropdown only updates values if new save is made
 
-  //Vue.use(VueDynamicForms);
-  //const components = {DynamicForm};
+  import { createApp } from 'vue'
+
   createApp({
     data() {
       return {
@@ -35,14 +33,6 @@
       }
     },
 
-    methods : {
-      changeDD(){
-       this.selected.push({
-          selected: "C"
-        })
-      }
-      
-    }
   }).mount('#v-model-select')
   /*
   createApp({
@@ -72,17 +62,28 @@
   }
   ,data() {
     return {
-      selected: '',
+      imageChoosen: '',
       imagesList: []
-    };
-   },
-
-  methods : {
-    images(){
-      fetch("https://webspaced.netsoc.ie/v1/images").then(x => x.json()).then(data => (this.imagesList = data));
     }
     
+   }
+   ,created()
+    {
+      fetch("https://webspaced.netsoc.ie/v1/images").then(x => x.json()).then(data => (this.imagesList = data));
+    }
+
+  ,methods : {
+    reloadImages(){
+      fetch("https://webspaced.netsoc.ie/v1/images").then(x => x.json()).then(data => (this.imagesList = data));
+    }
+  
+    
   }
+  ,computed: {
+    getAccountNames() {
+        return this.aliases.map(dataSet => dataSet[0].name)
+    }
+}
 }
 
   

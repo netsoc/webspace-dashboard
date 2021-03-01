@@ -9,12 +9,14 @@
         </select>
         <span id="result">Selected: {{ selected }}</span>
         <br><br>
-        <input v-model.lazy="message" placeholder="testing">
-        <p>Message is: {{ message }}</p>
 
-    <button @click="changeDD">Attempt to force update:  {{ selected }}</button>
-
-    <h2>Test of Remote data</h2>
+    
+    </div>
+    <div id="TestRemote" class="demo">
+      <h2>Test of Remote data</h2>
+      <button v-on:click="images">Attempt to force update:</button>
+      <br><br>
+      <span id="result-2">Images: {{ imagesList }}</span>
     </div>
 </template>
 <script>
@@ -39,14 +41,47 @@
           selected: "C"
         })
       }
+      
     }
   }).mount('#v-model-select')
+  /*
+  createApp({
+    data() {
+      return {
+        imagesList: [{"aliases":[{"name":"ubuntu18.04","description":""}],"fingerprint":"0e60015346f06627f10580d56ac7fffd9ea775f6d4f25987217d5eed94910a20","properties":{"architecture":"amd64","description":"Ubuntu bionic amd64 (20210228_07:42)","os":"Ubuntu","release":"bionic","serial":"20210228_07:42","type":"squashfs"},"size":102900380}]
+      };
+    },
+
+    methods : {
+      images(){
+        fetch("https://webspaced.netsoc.ie/v1/images").then(x => x.json()).then(data => (this.imagesList = data));
+      }
+      
+    }
+  }).mount('#TestRemote')*/
+  
+      
 
   export default {
   name: 'Dropdown',
   props: {
     msg: String
     //,components
+
+    
+  }
+  ,data() {
+    return {
+      selected: '',
+      imagesList: []
+    };
+   },
+
+  methods : {
+    images(){
+      fetch("https://webspaced.netsoc.ie/v1/images").then(x => x.json()).then(data => (this.imagesList = data));
+    }
+    
   }
 }
 

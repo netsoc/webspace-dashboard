@@ -7,18 +7,9 @@
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
 
-    <h2>Dropdown menu</h2>
-    <select v-model="selected">
-      <option disabled value="">Pick one</option>
-      <option>ubuntu</option>
-      <option>B</option>
-      <option>C</option>
-    </select>
-    <span> Selected: {{ selected }}</span>
-
   
     
-    <h2>Test of Remote data</h2>
+
 
     
     <h3>Installed CLI Plugins</h3>
@@ -36,34 +27,15 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
   </div>
-  <div id="v-model-select" class="demo">
-        <h1>{{ msg }}</h1>
-        <select v-model="selected">
-            <option disabled value="">Please select one</option>
-            <option>A</option>
-            <option>B</option>
-            <option>C</option>
-        </select>
-        <span>Selected: {{ selected }}</span>
-    </div>
 </template>
 
 <script>
-import { createApp } from 'vue'
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   }
 }
-createApp({
-  data() 
-  {
-    return {
-      selected: ''
-    }
-  }
-}).mount('#v-model-select')
 </script>
 
 

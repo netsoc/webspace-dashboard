@@ -7,19 +7,49 @@
             <option>B</option>
             <option>C</option>
         </select>
-        <span>Selected: {{ selected }}</span>
+        <span id="result">Selected: {{ selected }}</span>
+        <br><br>
+        <input v-model.lazy="message" placeholder="testing">
+        <p>Message is: {{ message }}</p>
+
+    <button @click="changeDD">Attempt to force update:  {{ selected }}</button>
+
+    <h2>Test of Remote data</h2>
     </div>
 </template>
 <script>
+  //import Vue from 'vue'
+  //import VueDynamicForms from '@asigloo/vue-dynamic-forms';
+  //import { DynamicForm } from '@asigloo/vue-dynamic-forms';
   import { createApp } from 'vue'
-  
+  //dropdown only updates values if new save is made
+
+  //Vue.use(VueDynamicForms);
+  //const components = {DynamicForm};
   createApp({
-      data() {
-        return {
-        selected: ''
+    data() {
+      return {
+        selected:''
+      }
+    },
+
+    methods : {
+      changeDD(){
+       this.selected.push({
+          selected: "C"
+        })
       }
     }
   }).mount('#v-model-select')
+
+  export default {
+  name: 'Dropdown',
+  props: {
+    msg: String
+    //,components
+  }
+}
+
   
 </script>
 

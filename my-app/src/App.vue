@@ -1,19 +1,19 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
- 
+  <Dropdown msg="Dropdown Menu"/>
   
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-//import Dropdown from './components/Dropdown.vue'  <Dropdown msg="Dropdown Menu"/>
+import Dropdown from './components/Dropdown.vue'  
 
 export default {
   name: 'App',
   components: {
     HelloWorld
-    //,Dropdown
+    ,Dropdown
   }
 }
 

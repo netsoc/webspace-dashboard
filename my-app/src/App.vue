@@ -1,17 +1,22 @@
 
 <template>
 	<div>
+                <header>
+                    <Navbar/>
+                </header>
 		<CreateWebspace />
 	</div>
 </template>
 
 <script>
 import CreateWebspace from "./components/CreateWebspace.vue"
+import Navbar from './components/NavigationBar'
 
 export default {
 	name: "App",
 	components: {
-		CreateWebspace
+		CreateWebspace,
+                Navbar
 	}
 }
 </script>
@@ -50,3 +55,23 @@ select, input {
 }
 </style>
 
+<style >
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box
+}
+
+body{
+  font-family: 'montserrat', sans-serif;
+
+}
+
+
+header{
+  width: 100vw;
+  background-color:rgb(57, 0, 190);
+  padding:25px;
+}
+
+</style>

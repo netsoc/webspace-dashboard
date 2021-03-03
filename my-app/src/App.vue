@@ -1,15 +1,15 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <img alt="Netsoc logo" src="./assets/netsoc-logo.png">
+  <Webspaces/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Webspaces from './components/Webspaces.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Webspaces
   }
 }
 </script>

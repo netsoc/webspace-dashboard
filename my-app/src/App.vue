@@ -4,6 +4,7 @@
                 <header>
                     <Navbar/>
                 </header>
+                <Login/>
 		<CreateWebspace />
 	</div>
 </template>
@@ -11,12 +12,14 @@
 <script>
 import CreateWebspace from "./components/CreateWebspace.vue"
 import Navbar from './components/NavigationBar'
+import Login from './components/Login.vue'
 
 export default {
 	name: "App",
 	components: {
 		CreateWebspace,
-                Navbar
+                Navbar,
+                Login
 	}
 }
 </script>

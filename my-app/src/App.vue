@@ -4,7 +4,7 @@
                 <header>
                     <Navbar/>
                 </header>
-                <Login/>
+                <Login :token="token" @login="updateToken($event)"/>
 		<CreateWebspace />
 	</div>
 </template>
@@ -20,7 +20,17 @@ export default {
 		CreateWebspace,
                 Navbar,
                 Login
-	}
+	},
+        data() {
+          return {
+            token: ""
+          }
+        },
+        methods: {
+          updateToken(newToken) {
+            this.token = newToken
+          }
+        }
 }
 </script>
 

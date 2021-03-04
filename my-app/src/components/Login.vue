@@ -15,7 +15,7 @@ export default {
     return {
       username: "",
       password: "",
-      JWT: ""
+      token: ""
     }
   },
   methods: {
@@ -28,8 +28,8 @@ export default {
       }
       const response = await fetch(`https://iam.netsoc.ie/v1/users/${this.username}/login`, requestOptions)
       const data = await response.json()
-      this.JWT = data.token
-      console.log(this.JWT)
+      this.token = data.token
+      this.$emit('login', this.token)
     }
   }
 }

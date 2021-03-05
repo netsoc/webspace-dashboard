@@ -1,16 +1,26 @@
 <template>
   <nav>
-    <div class='menu-item'><a href='#'></a>About</div>
-    <div class='menu-item'><a href='#'></a>Docs</div>
-    <div class='menu-item'><a href='#'></a>Create Webspace</div>
-    <div class='menu-account-item'><a href='#'></a>Account</div>
-    <div class='menu-account-item'><a href='#'></a>Logout</div>
+    <div class="menu-item">
+      <a href="#" />About
+    </div>
+    <div class="menu-item">
+      <a href="#" />Docs
+    </div>
+    <div class="menu-item">
+      <a href="#" />Create Webspace
+    </div>
+    <div class="menu-account-item">
+      <a href="#" />Account
+    </div>
+    <div class="menu-account-item">
+      <a href="#" />Logout
+    </div>
   </nav>
 </template>
 
 <script>
 export default {
-  name: 'navbar'
+  name: 'Navbar'
 }
 </script>
 
@@ -63,4 +73,3 @@ nav .menu-account-item a {
   text-decoration: none;
 }
 </style>
-

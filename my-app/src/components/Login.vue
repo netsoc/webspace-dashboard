@@ -1,12 +1,21 @@
 
 <template>
-  <form v-on:submit.prevent='login'>
-  <label for='username'>Username:</label>
-  <input type='text' v-model='username'><br><br>
-  <label for='password'>Password:</label>
-  <input type='password' v-model='password'><br><br>
-  <input type='submit' value='Submit'>
-</form>
+  <form @submit.prevent="login">
+    <label for="username">Username:</label>
+    <input
+      v-model="username"
+      type="text"
+    ><br><br>
+    <label for="password">Password:</label>
+    <input
+      v-model="password"
+      type="password"
+    ><br><br>
+    <input
+      type="submit"
+      value="Submit"
+    >
+  </form>
 </template>
 
 <script>
@@ -14,7 +23,7 @@ export default {
 
   name: 'Login',
 
-  data() {
+  data () {
     return {
       username: '',
       password: '',
@@ -23,11 +32,11 @@ export default {
   },
 
   methods: {
-    async login() {
+    async login () {
       const requestOptions = {
         method: 'POST',
         headers: { 'accept': 'application/json',
-                   'Content-Type': 'application/json' },
+          'Content-Type': 'application/json' },
         body: JSON.stringify({ 'password': this.password })
       }
       const response = await fetch(`https://iam.netsoc.ie/v1/users/${this.username}/login`, requestOptions)
@@ -42,4 +51,3 @@ export default {
 
 <style>
 </style>
-

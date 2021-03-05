@@ -2,9 +2,12 @@
 <template>
   <div>
     <header>
-      <Navbar/>
+      <Navbar />
     </header>
-    <Login :token='token' @login='updateToken($event)'/>
+    <Login
+      :token="token"
+      @login="updateToken($event)"
+    />
     <CreateWebspace />
   </div>
 </template>
@@ -24,14 +27,14 @@ export default {
     Login
   },
 
-  data() {
+  data () {
     return {
       token: ''
     }
   },
 
   methods: {
-    updateToken(newToken) {
+    updateToken (newToken) {
       this.token = newToken
     }
   }
@@ -78,4 +81,3 @@ select, input {
   border-radius: 2px;
 }
 </style>
-

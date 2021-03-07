@@ -103,7 +103,6 @@ export default {
 
   data () {
     return {
-      API_URL: 'https://webspaced.netsoc.ie/v1',
       // Array of images fetched
       availableImages: null,
       // New webspace configuration

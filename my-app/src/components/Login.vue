@@ -22,12 +22,12 @@
 export default {
 
   name: 'Login',
+  emits: ['login'],
 
   data () {
     return {
       username: '',
-      password: '',
-      token: ''
+      password: ''
     }
   },
 
@@ -35,14 +35,16 @@ export default {
     async login () {
       const requestOptions = {
         method: 'POST',
-        headers: { 'accept': 'application/json',
-          'Content-Type': 'application/json' },
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({ 'password': this.password })
       }
-      const response = await fetch(`https://iam.netsoc.ie/v1/users/${this.username}/login`, requestOptions)
+      const response = await fetch(`${this.API_URL}/users/${this.username}/login`, requestOptions)
       const data = await response.json()
-      this.token = data.token
-      this.$emit('login', this.token)
+      // TODO: verify login was successful
+      this.$emit('login', data.token)
     }
   }
 

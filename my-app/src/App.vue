@@ -5,8 +5,7 @@
       <Navbar />
     </header>
     <Login
-      :token="token"
-      @login="updateToken($event)"
+      @login="AUTH_TOKEN = $event"
     />
     <CreateWebspace />
   </div>
@@ -25,18 +24,6 @@ export default {
     CreateWebspace,
     Navbar,
     Login
-  },
-
-  data () {
-    return {
-      token: ''
-    }
-  },
-
-  methods: {
-    updateToken (newToken) {
-      this.token = newToken
-    }
   }
 }
 </script>

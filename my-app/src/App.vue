@@ -29,6 +29,12 @@ export default {
 </script>
 
 <style>
+:root {
+  --text-primary-color: #0040d0;
+  --text-font-family: "Segoe UI", sans-serif;
+  --background-primary-color: #ffffff;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -42,28 +48,19 @@ header {
 }
 
 body {
+  background-color: var(--background-primary-color);
   padding: 10px;
-  font-family: Segoe UI, sans-serif;
 }
 
-h2 {
-  color: #0040d0;
-  margin: 10px 20px 10px 0px;
-}
-
-h3 {
-  color: #0040d0;
-  margin: 20px 10px 10px 0px;
-}
-
-p {
-  color: #0040d0;
+h1, h2, h3, p {
+  font-family: var(--text-font-family);
+  color: var(--text-primary-color);
 }
 
 select, input {
   background: transparent;
-  color: #0040d0;
-  font-weight: bold;
+  font-family: var(--text-font-family);
+  color: var(--text-primary-color);
   border: 2px solid #0040d0;
   border-radius: 2px;
 }

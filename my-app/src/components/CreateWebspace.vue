@@ -1,12 +1,15 @@
 
 <template>
-  <div>
+  <div class="create-webspace-section">
     <div v-if="availableImages">
       <h2>Create Webspace</h2>
       <p>Create and initialize your new webspace. Learn more <a href="">here</a>.</p>
 
-      <h3>Select an LDX Image</h3>
-      <select v-model="webspaceConfig.image">
+      <h3>Select an LXD Image</h3>
+      <select
+        v-model="webspaceConfig.image"
+        class="image-select-menu"
+      >
         <option
           disabled
           :value="null"
@@ -37,12 +40,14 @@
       <h3>Give the Webspace a Password</h3>
       <input
         v-model="webspaceConfig.password"
+        class="webspace-password-input"
         type="password"
         placeholder="Password (optional)"
       >
       <div v-if="webspaceConfig.password.length != 0">
         <input
           v-model="webspaceConfig.passwordConfirmation"
+          class="webspace-password-input"
           type="password"
           placeholder="Confirm Password"
         >
@@ -55,19 +60,25 @@
       <input
         id="webspaceSSHEnabled"
         v-model="webspaceConfig.SSHEnabled"
+        class="additional-config-checkbox"
         type="checkbox"
       >
       <label for="webspaceSSHEnabled">Enable SSH</label>
-      <div v-if="webspaceConfig.SSHEnabled">
+      <div
+        v-if="webspaceConfig.SSHEnabled"
+        class="additional-config-ssh-section"
+      >
         <input
+          id="webspaceSSHPasswordEnabled"
           v-model="webspaceConfig.SSHPasswordEnabled"
+          class="additional-config-checkbox"
           type="checkbox"
-          label="webspaceSSHPasswordEnabled"
         >
         <label for="webspaceSSHPasswordEnabled">Enable SSH password login</label>
         <input
           id="webspaceSSHPKAEnabled"
           v-model="webspaceConfig.SSHPKAEnabled"
+          class="additional-config-checkbox"
           type="checkbox"
         >
         <label for="webspaceSSHPKAEnabled">Generate & Enabled SSH Public Key Authentication</label>
@@ -75,22 +86,29 @@
       <input
         id="webspaceSetupNginx"
         v-model="webspaceConfig.setupNginx"
+        class="additional-config-checkbox"
         type="checkbox"
       >
       <label for="webspaceSetupNginx">Setup nginx webserver</label>
       <input
         id="webspaceBootImmediately"
         v-model="webspaceConfig.bootImmediately"
+        class="additional-config-checkbox"
         type="checkbox"
       >
       <label for="webspaceBootImmediately">Boot immediately</label>
 
-      <button @click="initiateWebspace">
+      <button
+        class="initiate-webspace-button"
+        @click="initiateWebspace"
+      >
         Initiate Webspace
       </button>
     </div>
 
     <div v-else>
+      <!-- TODO: Delay before showing this -->
+      <!-- TODO: Animation to show page is still responsive -->
       <span>Loading...</span>
     </div>
   </div>
@@ -135,7 +153,7 @@ export default {
       return (bytes / Math.pow(unitSizes, magnitude)).toFixed(decimalPlaces) + ' ' + units[magnitude]
     },
 
-    // Retrieves all the available LDX images from the Netsoc Webspaced API
+    // Retrieves all the available LXD images from the Netsoc Webspaced API
     fetchAvailableImages () {
       fetch(this.API_URL + '/images').then(res => {
         // TODO: error handling
@@ -154,8 +172,29 @@ export default {
 </script>
 
 <style scoped>
-select {
+div .create-webspace-section {
+
+}
+
+div .additional-config-ssh-section {
+
+}
+
+select .image-select-menu {
+  font-weight: bold;
   margin: 0px 0px 10px 0px;
   width: 200px;
+}
+
+input .webspace-password-input {
+
+}
+
+input .additional-config-checkbox {
+
+}
+
+button .initiate-webspace-button {
+
 }
 </style>

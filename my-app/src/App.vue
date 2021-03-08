@@ -1,15 +1,34 @@
 <template>
-  <img alt="Netsoc logo" src="./assets/netsoc-logo.png">
-  <Webspaces/>
+  <div>
+    <SideBar />
+    <Login
+      :token="token"
+      @login="updateToken($event)"
+    />
+  </div>
 </template>
 
 <script>
-import Webspaces from './components/Webspaces.vue'
+import Login from './components/Login.vue'
+import SideBar from './components/SideBar.vue'
 
 export default {
   name: 'App',
   components: {
-    Webspaces
+    Login,
+    SideBar
+  },
+
+  data () {
+    return {
+      token: ''
+    }
+  },
+
+  methods: {
+    updateToken (newToken) {
+      this.token = newToken
+    }
   }
 }
 </script>
@@ -19,7 +38,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }

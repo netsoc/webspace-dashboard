@@ -155,7 +155,7 @@ export default {
 
     // Retrieves all the available LXD images from the Netsoc Webspaced API
     fetchAvailableImages () {
-      fetch(this.API_URL + '/images').then(res => {
+      fetch(`${this.WEBSPACED_API_URL}/images`).then(res => {
         // TODO: error handling
         res.json().then(data => {
           this.availableImages = data

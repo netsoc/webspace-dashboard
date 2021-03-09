@@ -4,10 +4,25 @@
     <header>
       <Navbar />
     </header>
-    <Login
-      @login="AUTH_TOKEN = $event"
-    />
-    <CreateWebspace />
+
+    <!-- Either show Login or CreateWebspace -->
+    <div v-if="authToken.length === 0">
+      <Login @login="onLogin" />
+    </div>
+    <div v-else>
+      <CreateWebspace :auth-token="authToken" />
+
+      <!-- Debug elements -->
+      <br><br>
+      <h2>Debug elements</h2>
+      <p>{{ JSON.stringify(webspaceInfo) }}</p>
+      <button @click="deleteWebspace">
+        Delete Webspace
+      </button>
+      <button @click="logout">
+        Logout
+      </button>
+    </div>
   </div>
 </template>
 
@@ -24,21 +39,75 @@ export default {
     CreateWebspace,
     Navbar,
     Login
+  },
+
+  data () {
+    return {
+      authToken: '',
+      webspaceInfo: null
+    }
+  },
+
+  methods: {
+
+    onLogin ($event) {
+      this.authToken = $event
+
+      // Fetch the users current webspace, if they have one
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+          'Authentication': `Bearer ${this.authToken}`
+        }
+      }
+      fetch(`${this.WEBSPACED_API_URL}/webspace/self`, requestOptions).then(res => {
+        if (res.status === 200) {
+          res.json().then(data => {
+            this.webspaceInfo = data
+          })
+        }
+      })
+    },
+
+    // Temp API method
+    logout () {
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Authentication': `Bearer ${this.authToken}`
+        }
+      }
+      fetch(`${this.IAM_API_URL}/users/self/login`, requestOptions)
+      this.authToken = ''
+    },
+
+    // Temp API method
+    deleteWebspace () {
+      const requestOptions = {
+        method: 'DELETE',
+        headers: {
+          'Authentication': `Bearer ${this.authToken}`
+        }
+      }
+      fetch(`${this.WEBSPACED_API_URL}/webspace/self`, requestOptions)
+      this.webspaceInfo = null
+    }
   }
 }
 </script>
 
 <style>
 :root {
+  /* Global CSS Variables */
   --text-primary-color: #0040d0;
   --text-font-family: "Segoe UI", sans-serif;
   --background-primary-color: #ffffff;
 }
 
 * {
+  /* Remove default element margins */
   padding: 0;
   margin: 0;
-  box-sizing: border-box
 }
 
 header {
@@ -48,15 +117,17 @@ header {
 }
 
 body {
+  /* Default background color */
   background-color: var(--background-primary-color);
-  padding: 10px;
 }
 
+/* Default text styling */
 h1, h2, h3, p {
   font-family: var(--text-font-family);
   color: var(--text-primary-color);
 }
 
+/* Default input styling */
 select, input {
   background: transparent;
   font-family: var(--text-font-family);

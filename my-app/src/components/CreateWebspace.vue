@@ -1,14 +1,15 @@
 
 <template>
-  <div class="create-webspace-section">
+  <div class="primary-section">
     <div v-if="availableImages">
       <h2>Create Webspace</h2>
-      <p>Create and initialize your new webspace. Learn more <a href="">here</a>.</p>
+      <p>Create and initialize your new webspace.</p>
+      <p>Learn more <a href="">here</a>.</p>
 
       <h3>Select an LXD Image</h3>
       <select
         v-model="webspaceConfig.image"
-        class="image-select-menu"
+        class="select-menu image-selection-menu"
       >
         <option
           disabled
@@ -24,16 +25,17 @@
           {{ image.aliases[0].name }}
         </option>
       </select>
-      <div v-if="webspaceConfig.image">
-        <div style="display: flex">
-          <div style="width: 50px">
-            <p>icon</p>
-            <p>here</p>
-          </div>
-          <div>
-            <p><b>{{ webspaceConfig.image.properties.description }}</b></p>
-            <p>{{ bytesToHumanReadable(webspaceConfig.image.size) }}</p>
-          </div>
+      <div
+        v-if="webspaceConfig.image"
+        class="image-details-section"
+      >
+        <div style="width: 50px">
+          <p>icon</p>
+          <p>here</p>
+        </div>
+        <div>
+          <p><b>{{ webspaceConfig.image.properties.description }}</b></p>
+          <p>{{ bytesToHumanReadable(webspaceConfig.image.size) }}</p>
         </div>
       </div>
 
@@ -99,7 +101,7 @@
       <label for="webspaceBootImmediately">Boot immediately</label>
 
       <button
-        class="initiate-webspace-button"
+        class="primary-button"
         @click="initiateWebspace"
       >
         Initiate Webspace
@@ -118,6 +120,10 @@
 export default {
 
   name: 'CreateWebspace',
+
+  props: {
+    authToken: { type: String, default: '' }
+  },
 
   data () {
     return {
@@ -165,15 +171,38 @@ export default {
 
     // Executed when user clicks "Initiate Webspace" button
     initiateWebspace () {
-      alert('TODO')
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.authToken}`
+        },
+        body: {
+          'image': this.webspaceConfig.image.aliases[0].name
+        }
+      }
+      fetch(`${this.WEBSPACED_API_URL}/webspace/self`, requestOptions).then(res => {
+        res.text().then(text => alert(res.status + ': ' + text))
+        // TODO: error handling
+        // TODO: apply additional options
+        // TODO: show progress, confirm completion
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+
+h3 {
+  margin: 25px 0 0 0;
+}
+
 div .create-webspace-section {
 
+}
+
+div .image-details-section {
+  display: flex;
 }
 
 div .additional-config-ssh-section {
@@ -186,15 +215,13 @@ select .image-select-menu {
   width: 200px;
 }
 
-input .webspace-password-input {
-
+.webspace-password-input input  {
+  margin: 100px;
+  padding: 10px;
 }
 
 input .additional-config-checkbox {
 
 }
 
-button .initiate-webspace-button {
-
-}
 </style>

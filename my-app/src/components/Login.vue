@@ -41,7 +41,7 @@ export default {
         },
         body: JSON.stringify({ 'password': this.password })
       }
-      const response = await fetch(`${this.API_URL}/users/${this.username}/login`, requestOptions)
+      const response = await fetch(`${this.IAM_API_URL}/users/${this.username}/login`, requestOptions)
       const data = await response.json()
       // TODO: verify login was successful
       this.$emit('login', data.token)

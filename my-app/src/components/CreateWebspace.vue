@@ -1,7 +1,10 @@
 
 <template>
   <div class="primary-section">
-    <div v-if="availableImages">
+    <div v-if="isLoading">
+      <span>Loading...</span>
+    </div>
+    <div v-else>
       <h2>Create Webspace</h2>
       <p>Create and initialize your new webspace.</p>
       <p>Learn more <a href="">here</a>.</p>
@@ -107,12 +110,6 @@
         Initiate Webspace
       </button>
     </div>
-
-    <div v-else>
-      <!-- TODO: Delay before showing this -->
-      <!-- TODO: Animation to show page is still responsive -->
-      <span>Loading...</span>
-    </div>
   </div>
 </template>
 
@@ -127,6 +124,8 @@ export default {
 
   data () {
     return {
+      // If the component is loading
+      isLoading: true,
       // Array of images fetched
       availableImages: null,
       // New webspace configuration
@@ -161,30 +160,42 @@ export default {
 
     // Retrieves all the available LXD images from the Netsoc Webspaced API
     fetchAvailableImages () {
+      this.isLoading = true
       fetch(`${this.WEBSPACED_API_URL}/images`).then(res => {
         // TODO: error handling
         res.json().then(data => {
           this.availableImages = data
+          this.isLoading = false
         })
       })
     },
 
     // Executed when user clicks "Initiate Webspace" button
     initiateWebspace () {
+      if (!this.webspaceConfig.image) {
+        alert('select an image')
+        return
+      }
+      this.isLoading = true
       const requestOptions = {
         method: 'POST',
         headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.authToken}`
         },
-        body: {
+        body: JSON.stringify({
           'image': this.webspaceConfig.image.aliases[0].name
-        }
+        })
       }
       fetch(`${this.WEBSPACED_API_URL}/webspace/self`, requestOptions).then(res => {
-        res.text().then(text => alert(res.status + ': ' + text))
         // TODO: error handling
         // TODO: apply additional options
         // TODO: show progress, confirm completion
+        res.text().then(text => {
+          alert(res.status + ': ' + text)
+          this.isLoading = false
+        })
       })
     }
   }

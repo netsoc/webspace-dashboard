@@ -1,27 +1,16 @@
 
 <template>
   <div>
+    <!-- Navigation bar -->
     <header>
       <Navbar />
     </header>
-
     <!-- Either show Login or CreateWebspace -->
     <div v-if="authToken.length === 0">
       <Login @login="onLogin" />
     </div>
     <div v-else>
       <CreateWebspace :auth-token="authToken" />
-
-      <!-- Debug elements -->
-      <br><br>
-      <h2>Debug elements</h2>
-      <p>{{ JSON.stringify(webspaceInfo) }}</p>
-      <button @click="deleteWebspace">
-        Delete Webspace
-      </button>
-      <button @click="logout">
-        Logout
-      </button>
     </div>
   </div>
 </template>
@@ -43,54 +32,14 @@ export default {
 
   data () {
     return {
-      authToken: '',
-      webspaceInfo: null
+      authToken: ''
     }
   },
 
   methods: {
-
     onLogin ($event) {
       this.authToken = $event
-
-      // Fetch the users current webspace, if they have one
-      const requestOptions = {
-        method: 'GET',
-        headers: {
-          'Authentication': `Bearer ${this.authToken}`
-        }
-      }
-      fetch(`${this.WEBSPACED_API_URL}/webspace/self`, requestOptions).then(res => {
-        if (res.status === 200) {
-          res.json().then(data => {
-            this.webspaceInfo = data
-          })
-        }
-      })
-    },
-
-    // Temp API method
-    logout () {
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Authentication': `Bearer ${this.authToken}`
-        }
-      }
-      fetch(`${this.IAM_API_URL}/users/self/login`, requestOptions)
-      this.authToken = ''
-    },
-
-    // Temp API method
-    deleteWebspace () {
-      const requestOptions = {
-        method: 'DELETE',
-        headers: {
-          'Authentication': `Bearer ${this.authToken}`
-        }
-      }
-      fetch(`${this.WEBSPACED_API_URL}/webspace/self`, requestOptions)
-      this.webspaceInfo = null
+      this.fetchWebspace()
     }
   }
 }

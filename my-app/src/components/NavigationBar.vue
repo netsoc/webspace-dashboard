@@ -1,11 +1,45 @@
 <template>
-    <nav>
-        <div class="menu-item"><a href="#"></a>About</div>
-        <div class="menu-item"><a href="#"></a>Docs</div>
-        <div class="menu-item"><a href="#"></a>Create Webspace</div>
-        <div class="menu-account-item"><a href="#"></a>Account</div>
-        <div class="menu-account-item"><a href="#"></a>Logout</div>
-    </nav>
+    <div class="side-nav-bar">
+        <div class="title">
+            <!--<div><img alt="Vue logo" src="../assets/logo.png"></div>-->
+            <div><img alt="Vue logo" src="../assets/netsoc-logo.png" contain height="180" width="200"></div>
+            Netsoc Webspaces
+        </div>
+        <div class="menu-items">
+            <router-link to="/about" active-class="active" tag="button" class="side-buttons"> 
+                <div class="link-container">
+                    About
+                </div>
+            </router-link>
+            <router-link to="/docs" active-class="active" tag="button" class="side-buttons"> 
+                <div class="link-container">
+                    Docs
+                </div>
+            </router-link>
+            <router-link to="/createwebspace" active-class="active" tag="button" class="side-buttons"> 
+                <div class="link-container">
+                    Create Webspace
+                </div>
+            </router-link>
+            <router-link to="/managewebspace" active-class="active" tag="button" class="side-buttons"> 
+                <div class="link-container">
+                    Manage Webspace
+                </div>
+            </router-link>
+            <router-link to="/account" active-class="active" tag="button" class="side-buttons"> 
+                <div class="link-container">
+                    Account
+                </div>
+            </router-link>
+            <router-link to="/" active-class="active" tag="button" class="side-buttons"> 
+                <div class="link-container">
+                    Logout 
+                </div>
+            </router-link>
+        </div>
+
+    </div>
+    
 </template>
 
 <script>
@@ -15,11 +49,47 @@ export default {
 </script>
 
 
-<style >
+<style scoped >
+    .title {
+        color: white;
+        font-size: 24px;
+        margin-top: 0px ;
+    }
+    .menu-items {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        padding: 6px 8px 6px 16px;;
+        margin-top: 20px;
+        
+    }
+    .menu-items > * {
+        margin-top: 10px;
+        text-decoration: none;
+    }
+    .side-buttons:hover{
+        background-color:rgb(96, 110, 235);
+        border-bottom-color: red;
+        padding: 6px 8px 6px 16px;
+        border-radius: 15px;
+        color: black;
+        
+    }
+    .side-buttons:focus{
+        outline: none;
+    }     
+    .side-buttons {
+        border:none;
+        color: white;
+        padding: 10px 0px; 
+        cursor: pointer;
+        font-size: 20px; 
+
+    }
     nav{
         display: flex;
-        align-items: center;
-        justify-content: center ;
+        align-items: left;
+        justify-content: left;
     }
 
     nav .menu-item{

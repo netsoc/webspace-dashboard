@@ -1,17 +1,19 @@
 const https = require('https')
 
-// TODO: check authToken works globally
-let authToken = ''
+let token = ''
 
 export const WEBSPACED_API_URL = 'webspaced.netsoc.ie/v1'
 export const IAM_API_URL = 'iam.netsoc.ie/v1'
 
-// Set and verify the new token if not empty
-export function setAuthToken (newToken) {
-  const oldToken = authToken
-  authToken = newToken
-  if (authToken.length !== 0) {
-    fetch(IAM_API_URL + '/users/self/token').catch(authToken = oldToken) // TODO: is this correct?
+// Set authToken and verify the if not empty
+export function setToken (newToken) {
+  token = newToken
+  if (token.length !== 0) {
+    fetch(IAM_API_URL + '/users/self/token').catch(err => {
+      // Failed to validate new JWT
+      console.error(err.message)
+      token = ''
+    })
   }
 }
 
@@ -28,8 +30,8 @@ export function fetch (url, method = 'GET', body = null) {
     }
 
     // Authenticate with JWT if set
-    if (authToken.length !== 0) {
-      options.headers.Authorization = 'Bearer ' + authToken
+    if (token.length !== 0) {
+      options.headers.Authorization = 'Bearer ' + token
     }
 
     // Create the request
@@ -52,8 +54,8 @@ export function fetch (url, method = 'GET', body = null) {
         } else {
           try {
             resolve(JSON.parse(data))
-          } catch (e) {
-            reject(e)
+          } catch (err) {
+            reject(err)
           }
         }
       })

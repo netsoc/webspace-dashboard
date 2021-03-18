@@ -1,14 +1,17 @@
 
 <template>
   <div>
-    <p>webSpaceConfig</p>
+    <p>Webspace Configuration</p>
 
-    <button
-      class="TempButton"
-      @click="findConfig"
-    >
-      Test find
-    </button>
+    <br><br>
+    Startup Delay <br>
+    {{ webspaceConfig.startupDelay }} seconds
+    <br>
+    HTTP Port <br>
+    {{ webspaceConfig.httpPort }}
+    <br>
+    SNI Passthrough <br>
+    {{ webspaceConfig.sniPassthrough }}
   </div>
 </template>
 
@@ -33,7 +36,7 @@ export default {
 
   // Fetchs the available images when this view is created
   created () {
-    // this.findConfig()
+    this.findConfig()
   },
 
   methods: {
@@ -41,8 +44,15 @@ export default {
     async findConfig () {
       this.isLoading = true
       try {
+        /*
         const res = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'GET')
         alert('Webspace config data: ' + JSON.stringify(res))
+        this.webspaceConfig.startupDelay = res[0]
+        this.webspaceConfig.httpPort = res[1]
+        this.webspaceConfig.sniPassthrough = res[2]
+        */
+        this.webspaceConfig = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'GET')
+        // alert('Webspace config data: ' + JSON.stringify(this.webspaceConfig))
       } catch (err) {
         alert('Unable to find webspace config data: ' + err.message)
       }

@@ -123,10 +123,6 @@ export default {
 
   name: 'CreateWebspace',
 
-  props: {
-    authToken: { type: String, default: '' }
-  },
-
   data () {
     return {
       isLoading: true,

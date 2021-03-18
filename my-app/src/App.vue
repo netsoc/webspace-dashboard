@@ -6,6 +6,7 @@
     </header>
     <div v-if="isLoggedIn">
       <CreateWebspace />
+      <WebspaceConfiguration />
     </div>
     <div v-else>
       <Login @login="isLoggedIn = true" />
@@ -17,6 +18,7 @@
 import CreateWebspace from './components/CreateWebspace.vue'
 import Navbar from './components/NavigationBar'
 import Login from './components/Login.vue'
+import WebspaceConfiguration from './components/WebspaceConfiguration'
 
 export default {
 
@@ -25,7 +27,8 @@ export default {
   components: {
     CreateWebspace,
     Navbar,
-    Login
+    Login,
+    WebspaceConfiguration
   },
 
   data () {

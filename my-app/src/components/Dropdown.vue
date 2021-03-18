@@ -1,40 +1,54 @@
 <template>
-    <div id="TestRemote" class="demo">
-      <h2>Test of Remote data</h2>
+  <div
+    id="TestRemote"
+    class="demo"
+  >
+    <h2>Test of Remote data</h2>
 
-      <div v-for="imageData in imagesList" :key = imageData.fingerprint class = "image-data">
-        <span>{{imageData.aliases[0].name}}</span>
-
-
-      </div>  
-      <br><br>
-
-      <select v-model="imageChoosen">
-            <option disabled value="">Please select one</option>
-            <option v-for="imageData in imagesList" :key = imageData.fingerprint :value="imageData.aliases[0].name">
-              {{ imageData.aliases[0].name }}
-            </option>
-        </select>
-        <span id="result">Selected: {{ imageChoosen }}</span>
-        <br><br>
-
-      <br><br>
-      <!-- <span id="result-2">Images: {{ imagesList }}</span> -->
+    <div
+      v-for="imageData in imagesList"
+      :key="imageData.fingerprint"
+      class="image-data"
+    >
+      <span>{{ imageData.aliases[0].name }}</span>
     </div>
+    <br><br>
+
+    <select v-model="imageChoosen">
+      <option
+        disabled
+        value=""
+      >
+        Please select one
+      </option>
+      <option
+        v-for="imageData in imagesList"
+        :key="imageData.fingerprint"
+        :value="imageData.aliases[0].name"
+      >
+        {{ imageData.aliases[0].name }}
+      </option>
+    </select>
+    <span id="result">Selected: {{ imageChoosen }}</span>
+    <br><br>
+
+    <br><br>
+    <!-- <span id="result-2">Images: {{ imagesList }}</span> -->
+  </div>
 </template>
 <script>
 
-  import { createApp } from 'vue'
+import { createApp } from 'vue'
 
-  createApp({
-    data() {
-      return {
-        selected:''
-      }
-    },
+createApp({
+  data () {
+    return {
+      selected: ''
+    }
+  }
 
-  }).mount('#v-model-select')
-  /*
+}).mount('#v-model-select')
+/*
   createApp({
     data() {
       return {
@@ -46,47 +60,40 @@
       images(){
         fetch("https://webspaced.netsoc.ie/v1/images").then(x => x.json()).then(data => (this.imagesList = data));
       }
-      
-    }
-  }).mount('#TestRemote')*/
-  
-      
 
-  export default {
+    }
+  }).mount('#TestRemote') */
+
+export default {
   name: 'Dropdown',
   props: {
     msg: String
-    //,components
+    //, components
 
-    
-  }
-  ,data() {
+  },
+  data () {
     return {
       imageChoosen: '',
       imagesList: []
     }
-    
-   }
-   ,created()
-    {
-      fetch("https://webspaced.netsoc.ie/v1/images").then(x => x.json()).then(data => (this.imagesList = data));
+  },
+  computed: {
+    getAccountNames () {
+      return this.aliases.map(dataSet => dataSet[0].name)
+    }
+  },
+  created () {
+    fetch('https://webspaced.netsoc.ie/v1/images').then(x => x.json()).then(data => (this.imagesList = data))
+  },
+
+  methods: {
+    reloadImages () {
+      fetch('https://webspaced.netsoc.ie/v1/images').then(x => x.json()).then(data => (this.imagesList = data))
     }
 
-  ,methods : {
-    reloadImages(){
-      fetch("https://webspaced.netsoc.ie/v1/images").then(x => x.json()).then(data => (this.imagesList = data));
-    }
-  
-    
   }
-  ,computed: {
-    getAccountNames() {
-        return this.aliases.map(dataSet => dataSet[0].name)
-    }
-}
 }
 
-  
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 
 <template>
-  <div class="primary-section">
-    <div v-if="availableImages">
+  <div>
+    <div v-if="!isLoading">
       <h2>Create Webspace</h2>
       <p>Create and initialize your new webspace.</p>
       <p>Learn more <a href="">here</a>.</p>
@@ -117,6 +117,8 @@
 </template>
 
 <script>
+import * as API from '@/API.js'
+
 export default {
 
   name: 'CreateWebspace',
@@ -127,6 +129,7 @@ export default {
 
   data () {
     return {
+      isLoading: true,
       // Array of images fetched
       availableImages: null,
       // New webspace configuration
@@ -159,33 +162,29 @@ export default {
       return (bytes / Math.pow(unitSizes, magnitude)).toFixed(decimalPlaces) + ' ' + units[magnitude]
     },
 
-    // Retrieves all the available LXD images from the Netsoc Webspaced API
-    fetchAvailableImages () {
-      fetch(`${this.WEBSPACED_API_URL}/images`).then(res => {
-        // TODO: error handling
-        res.json().then(data => {
-          this.availableImages = data
-        })
-      })
+    // Retrieves all the available LDX images from the Netsoc Webspaced API
+    async fetchAvailableImages () {
+      this.isLoading = true
+      try {
+        const images = await API.fetch(API.WEBSPACED_API_URL + '/images')
+        this.availableImages = images
+      } catch (err) {
+        alert('Unable to fetch available OS images: ' + err.message)
+      }
+      this.isLoading = false
     },
 
     // Executed when user clicks "Initiate Webspace" button
-    initiateWebspace () {
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${this.authToken}`
-        },
-        body: {
-          'image': this.webspaceConfig.image.aliases[0].name
-        }
+    async initiateWebspace () {
+      this.isLoading = true
+      try {
+        const body = { 'image': this.webspaceConfig.image.aliases[0].name }
+        const res = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'POST', body)
+        alert('New webspace successful initialized: ' + JSON.stringify(res))
+      } catch (err) {
+        alert('Unable to initialize new webspace: ' + err.message)
       }
-      fetch(`${this.WEBSPACED_API_URL}/webspace/self`, requestOptions).then(res => {
-        res.text().then(text => alert(res.status + ': ' + text))
-        // TODO: error handling
-        // TODO: apply additional options
-        // TODO: show progress, confirm completion
-      })
+      this.isLoading = false
     }
   }
 }
@@ -193,35 +192,10 @@ export default {
 
 <style scoped>
 
-h3 {
-  margin: 25px 0 0 0;
-}
-
-div .create-webspace-section {
-
-}
-
-div .image-details-section {
-  display: flex;
-}
-
-div .additional-config-ssh-section {
-
-}
-
 select .image-select-menu {
   font-weight: bold;
   margin: 0px 0px 10px 0px;
   width: 200px;
-}
-
-.webspace-password-input input  {
-  margin: 100px;
-  padding: 10px;
-}
-
-input .additional-config-checkbox {
-
 }
 
 </style>

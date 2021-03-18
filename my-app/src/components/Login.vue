@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import * as API from '@/API.js'
+
 export default {
 
   name: 'Login',
@@ -33,18 +35,16 @@ export default {
 
   methods: {
     async login () {
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 'password': this.password })
+      try {
+        const body = { 'password': this.password }
+        const data = await API.fetch(`${API.IAM_API_URL}/users/${this.username}/login`, 'POST', body)
+        API.setToken(data.token)
+        // Example login successful resolution
+        this.$emit('login')
+      } catch (err) {
+        // Example login failure resolution
+        alert('Unable to login: ' + err.message)
       }
-      const response = await fetch(`${this.IAM_API_URL}/users/${this.username}/login`, requestOptions)
-      const data = await response.json()
-      // TODO: verify login was successful
-      this.$emit('login', data.token)
     }
   }
 

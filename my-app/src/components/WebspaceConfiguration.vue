@@ -2,8 +2,8 @@
 <template>
   <div>
     <p>Webspace Configuration</p>
-
-    <br><br>
+    <!-- Need to add in some verification for if there is a webspace active -->
+    <br>
     Startup Delay <br>
     {{ webspaceConfig.startupDelay }} seconds
     <br>
@@ -44,15 +44,7 @@ export default {
     async findConfig () {
       this.isLoading = true
       try {
-        /*
-        const res = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'GET')
-        alert('Webspace config data: ' + JSON.stringify(res))
-        this.webspaceConfig.startupDelay = res[0]
-        this.webspaceConfig.httpPort = res[1]
-        this.webspaceConfig.sniPassthrough = res[2]
-        */
         this.webspaceConfig = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'GET')
-        // alert('Webspace config data: ' + JSON.stringify(this.webspaceConfig))
       } catch (err) {
         alert('Unable to find webspace config data: ' + err.message)
       }

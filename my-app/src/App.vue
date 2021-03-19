@@ -1,20 +1,24 @@
 
 <template>
   <div>
-    <header>
+    <!--<header>
       <Navbar />
     </header>
     <Login
       @login="AUTH_TOKEN = $event"
-    />
+    />-->
     <CreateWebspace />
+    <div id="app">
+      <router-view />
+    </div>
   </div>
 </template>
 
+
 <script>
 import CreateWebspace from './components/CreateWebspace.vue'
-import Navbar from './components/NavigationBar'
-import Login from './components/Login.vue'
+//import Navbar from './components/NavigationBar'
+//import Login from './components/Login.vue'
 
 export default {
 
@@ -22,8 +26,8 @@ export default {
 
   components: {
     CreateWebspace,
-    Navbar,
-    Login
+    //Navbar,
+    //Login
   }
 }
 </script>
@@ -58,6 +62,20 @@ h3 {
 
 p {
   color: #0040d0;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+body{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
 select, input {

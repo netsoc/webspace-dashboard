@@ -26,11 +26,11 @@ const routes = [
       {
         path: '/account',
         component: () => import(/* webpackChunkName: "account" */ '@/views/Account')
-      },
-      
+      }
+
     ]
-  },
-  
+  }
+
 ]
 
 const router = createRouter({

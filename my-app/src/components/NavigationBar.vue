@@ -36,7 +36,7 @@
         active-class="active"
         tag="button"
         class="side-buttons"
-      > 
+      >
         <div class="link-container">
           About
         </div>
@@ -46,7 +46,7 @@
         active-class="active"
         tag="button"
         class="side-buttons"
-      > 
+      >
         <div class="link-container">
           Docs
         </div>
@@ -56,7 +56,7 @@
         active-class="active"
         tag="button"
         class="side-buttons"
-      > 
+      >
         <div class="link-container">
           Create Webspace
         </div>
@@ -66,7 +66,7 @@
         active-class="active"
         tag="button"
         class="side-buttons"
-      > 
+      >
         <div class="link-container">
           Manage Webspace
         </div>
@@ -76,7 +76,7 @@
         active-class="active"
         tag="button"
         class="side-buttons"
-      > 
+      >
         <div class="link-container">
           Account
         </div>
@@ -86,9 +86,9 @@
         active-class="active"
         tag="button"
         class="side-buttons"
-      > 
+      >
         <div class="link-container">
-          Logout 
+          Logout
         </div>
       </router-link>
     </div>
@@ -120,7 +120,7 @@ nav {
         text-align: left;
         padding: 6px 8px 6px 16px;;
         margin-top: 20px;
-        
+
     }
     .menu-items > * {
         margin-top: 10px;
@@ -132,17 +132,17 @@ nav {
         padding: 6px 8px 6px 16px;
         border-radius: 15px;
         color: black;
-        
+
     }
     .side-buttons:focus{
         outline: none;
-    }     
+    }
     .side-buttons {
         border:none;
         color: white;
-        padding: 10px 0px; 
+        padding: 10px 0px;
         cursor: pointer;
-        font-size: 20px; 
+        font-size: 20px;
 
     }
     nav{

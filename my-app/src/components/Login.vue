@@ -5,23 +5,25 @@
   <br/>
   <form @submit.prevent="login">
     <label for="username">Username:</label>
-    <br/>
+    <br>
     <input
       v-model="username"
       type="text"
     ><br><br>
     <label for="password">Password:</label>
-    <br/>
+    <br>
     <input
       v-model="password"
       type="password"
     >
     <br>
     <div class="login-forgot-password">
-      <a href="#" >Forgot your password?</a>
+      <a href="#">Forgot your password?</a>
     </div>
     <br>
-    <button v-on:click="login">Login</button>
+    <button @click="login">
+      Login
+    </button>
     <div class="login-register">
       <a href="#">Or register here</a>
     </div>
@@ -30,6 +32,8 @@
 </template>
 
 <script>
+import * as API from '@/API.js'
+
 export default {
 
   name: 'Login',
@@ -44,16 +48,16 @@ export default {
 
   methods: {
     async login () {
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'accept': 'application/json',
-          'Content-Type': 'application/json' },
-        body: JSON.stringify({ 'password': this.password })
+      try {
+        const body = { 'password': this.password }
+        const data = await API.fetch(`${API.IAM_API_URL}/users/${this.username}/login`, 'POST', body)
+        API.setToken(data.token)
+        // Example login successful resolution
+        this.$emit('login')
+      } catch (err) {
+        // Example login failure resolution
+        alert('Unable to login: ' + err.message)
       }
-      const response = await fetch(`https://iam.netsoc.ie/v1/users/${this.username}/login`, requestOptions)
-      const data = await response.json()
-      this.token = data.token
-      this.$emit('login', this.token)
     }
   }
 
@@ -65,20 +69,16 @@ export default {
   margin-top: 170px;
   margin-left: 300px;
 }
-
 .login h1 {
   font-size: 40px;
   font-weight:normal;
 }
-
 .login label {
   font-size: 16px;
 }
-
 .login a {
   font-size: 8px;
 }
-
 .login button {
   background-color: #0055FF; /* Green */
   border: none;
@@ -90,30 +90,24 @@ export default {
   font-size: 16px;
   margin-left: 100px;
 }
-
 .login-forgot-password {
   font-size: 10px;
 }
-
 .login-forgot-password a{
   font-size: 10px;
   text-decoration: underline;
 }
-
 .login-forgot-password a:hover{
   color: #3f41e6;
 }
-
 .login-register {
   font-size: 12px;
   margin-left: 118px;
 }
-
 .login-register a{
   font-size: 10px;
   text-decoration: underline;
 }
-
 .login-register a:hover{
   color: #3f41e6;
 }

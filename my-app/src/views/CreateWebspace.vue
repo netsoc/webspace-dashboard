@@ -1,138 +1,124 @@
 <template>
-  <!-- <div class="CreateWebspace">
-    <p>Create Webspace</p>
-  </div> -->
-  <div
-    v-if="isLoggedIn"
-    class="context"
-  >
-    <div v-if="!isLoading">
-      <h2>Create Webspace</h2>
-      <p>Create and initialize your new webspace.</p>
-      <p>Learn more <a href="">here</a>.</p>
+  <div v-if="!isLoading">
+    <h2>Create Webspace</h2>
+    <p>Create and initialize your new webspace.</p>
+    <p>Learn more <a href="">here</a>.</p>
 
-      <h3>Select an LXD Image</h3>
-      <select
-        v-model="webspaceConfig.image"
-        class="select-menu image-selection-menu"
+    <h3>Select an LXD Image</h3>
+    <select
+      v-model="webspaceConfig.image"
+      class="select-menu image-selection-menu"
+    >
+      <option
+        disabled
+        :value="null"
       >
-        <option
-          disabled
-          :value="null"
-        >
-          Select an Image
-        </option>
-        <option
-          v-for="image in availableImages"
-          :key="image.id"
-          :value="image"
-        >
-          {{ image.aliases[0].name }}
-        </option>
-      </select>
-      <div
-        v-if="webspaceConfig.image"
-        class="image-details-section"
+        Select an Image
+      </option>
+      <option
+        v-for="image in availableImages"
+        :key="image.id"
+        :value="image"
       >
-        <div style="width: 50px">
-          <p>icon</p>
-          <p>here</p>
-        </div>
-        <div>
-          <p><b>{{ webspaceConfig.image.properties.description }}</b></p>
-          <p>{{ bytesToHumanReadable(webspaceConfig.image.size) }}</p>
-        </div>
+        {{ image.aliases[0].name }}
+      </option>
+    </select>
+    <div
+      v-if="webspaceConfig.image"
+      class="image-details-section"
+    >
+      <div style="width: 50px">
+        <p>icon</p>
+        <p>here</p>
       </div>
+      <div>
+        <p><b>{{ webspaceConfig.image.properties.description }}</b></p>
+        <p>{{ bytesToHumanReadable(webspaceConfig.image.size) }}</p>
+      </div>
+    </div>
 
-      <h3>Give the Webspace a Password</h3>
+    <h3>Give the Webspace a Password</h3>
+    <input
+      v-model="webspaceConfig.password"
+      class="webspace-password-input"
+      type="password"
+      placeholder="Password (optional)"
+    >
+    <div v-if="webspaceConfig.password.length != 0">
       <input
-        v-model="webspaceConfig.password"
+        v-model="webspaceConfig.passwordConfirmation"
         class="webspace-password-input"
         type="password"
-        placeholder="Password (optional)"
+        placeholder="Confirm Password"
       >
-      <div v-if="webspaceConfig.password.length != 0">
-        <input
-          v-model="webspaceConfig.passwordConfirmation"
-          class="webspace-password-input"
-          type="password"
-          placeholder="Confirm Password"
-        >
-        <div v-if="webspaceConfig.password === webspaceConfig.passwordConfirmation">
-          <p>match!</p>
-        </div>
+      <div v-if="webspaceConfig.password === webspaceConfig.passwordConfirmation">
+        <p>match!</p>
       </div>
-
-      <h3>Additional Configuration</h3>
-      <input
-        id="webspaceSSHEnabled"
-        v-model="webspaceConfig.SSHEnabled"
-        class="additional-config-checkbox"
-        type="checkbox"
-      >
-      <label for="webspaceSSHEnabled">Enable SSH</label>
-      <div
-        v-if="webspaceConfig.SSHEnabled"
-        class="additional-config-ssh-section"
-      >
-        <input
-          id="webspaceSSHPasswordEnabled"
-          v-model="webspaceConfig.SSHPasswordEnabled"
-          class="additional-config-checkbox"
-          type="checkbox"
-        >
-        <label for="webspaceSSHPasswordEnabled">Enable SSH password login</label>
-        <input
-          id="webspaceSSHPKAEnabled"
-          v-model="webspaceConfig.SSHPKAEnabled"
-          class="additional-config-checkbox"
-          type="checkbox"
-        >
-        <label for="webspaceSSHPKAEnabled">Generate & Enabled SSH Public Key Authentication</label>
-      </div>
-      <input
-        id="webspaceSetupNginx"
-        v-model="webspaceConfig.setupNginx"
-        class="additional-config-checkbox"
-        type="checkbox"
-      >
-      <label for="webspaceSetupNginx">Setup nginx webserver</label>
-      <input
-        id="webspaceBootImmediately"
-        v-model="webspaceConfig.bootImmediately"
-        class="additional-config-checkbox"
-        type="checkbox"
-      >
-      <label for="webspaceBootImmediately">Boot immediately</label>
-
-      <button
-        class="primary-button"
-        @click="initiateWebspace"
-      >
-        Initiate Webspace
-      </button>
     </div>
 
-    <div v-else>
-      <!-- TODO: Delay before showing this -->
-      <!-- TODO: Animation to show page is still responsive -->
-      <span>Loading...</span>
+    <h3>Additional Configuration</h3>
+    <input
+      id="webspaceSSHEnabled"
+      v-model="webspaceConfig.SSHEnabled"
+      class="additional-config-checkbox"
+      type="checkbox"
+    >
+    <label for="webspaceSSHEnabled">Enable SSH</label>
+    <div
+      v-if="webspaceConfig.SSHEnabled"
+      class="additional-config-ssh-section"
+    >
+      <input
+        id="webspaceSSHPasswordEnabled"
+        v-model="webspaceConfig.SSHPasswordEnabled"
+        class="additional-config-checkbox"
+        type="checkbox"
+      >
+      <label for="webspaceSSHPasswordEnabled">Enable SSH password login</label>
+      <input
+        id="webspaceSSHPKAEnabled"
+        v-model="webspaceConfig.SSHPKAEnabled"
+        class="additional-config-checkbox"
+        type="checkbox"
+      >
+      <label for="webspaceSSHPKAEnabled">Generate & Enabled SSH Public Key Authentication</label>
     </div>
+    <input
+      id="webspaceSetupNginx"
+      v-model="webspaceConfig.setupNginx"
+      class="additional-config-checkbox"
+      type="checkbox"
+    >
+    <label for="webspaceSetupNginx">Setup nginx webserver</label>
+    <input
+      id="webspaceBootImmediately"
+      v-model="webspaceConfig.bootImmediately"
+      class="additional-config-checkbox"
+      type="checkbox"
+    >
+    <label for="webspaceBootImmediately">Boot immediately</label>
+
+    <button
+      class="primary-button"
+      @click="initiateWebspace"
+    >
+      Initiate Webspace
+    </button>
   </div>
+
   <div v-else>
-    <Login @login="isLoggedIn = true" />
+    <!-- TODO: Delay before showing this -->
+    <!-- TODO: Animation to show page is still responsive -->
+    <span>Loading...</span>
   </div>
 </template>
 
 <script>
 import * as API from '@/API.js'
-import Login from '../components/Login.vue'
 export default {
   name: 'CreateWebspace',
-  components: { Login },
   data () {
     return {
-      isLoggedIn: false,
       isLoading: true,
       // Array of images fetched
       availableImages: null,
@@ -170,6 +156,7 @@ export default {
         const images = await API.fetch(API.WEBSPACED_API_URL + '/images')
         this.availableImages = images
       } catch (err) {
+        // TODO: show error in HTML instead - maybe even navigate to an network error page?
         alert('Unable to fetch available OS images: ' + err.message)
       }
       this.isLoading = false
@@ -180,8 +167,10 @@ export default {
       try {
         const body = { 'image': this.webspaceConfig.image.aliases[0].name }
         const res = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'POST', body)
+        // TODO: route to another page like /managewebspace instead
         alert('New webspace successful initialized: ' + JSON.stringify(res))
       } catch (err) {
+        // TODO: show error in HTML instead
         alert('Unable to initialize new webspace: ' + err.message)
       }
       this.isLoading = false

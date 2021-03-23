@@ -1,14 +1,19 @@
 const https = require('https')
 
+// TODO: move jwt to localstorage instead of this variable
 let token = ''
 
 export const WEBSPACED_API_URL = 'webspaced.netsoc.ie/v1'
 export const IAM_API_URL = 'iam.netsoc.ie/v1'
 
+export function userIsLoggedIn () {
+  return token.length !== 0
+}
+
 // Set authToken and verify the if not empty
 export function setToken (newToken) {
   token = newToken
-  if (token.length !== 0) {
+  if (userIsLoggedIn()) {
     fetch(IAM_API_URL + '/users/self/token').catch(err => {
       // Failed to validate new JWT
       console.error(err.message)
@@ -30,7 +35,7 @@ export function fetch (url, method = 'GET', body = null) {
     }
 
     // Authenticate with JWT if set
-    if (token.length !== 0) {
+    if (userIsLoggedIn()) {
       options.headers.Authorization = 'Bearer ' + token
     }
 

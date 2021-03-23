@@ -1,36 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
+import DashboardView from '@/views/Dashboard.vue'
+import AboutView from '@/views/About.vue'
+import DocsView from '@/views/Docs.vue'
+import CreateWebspaceView from '@/views/CreateWebspace.vue'
+import ManageWebspaceView from '@/views/ManageWebspace.vue'
+import AccountView from '@/views/Account.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Dashboard,
+    component: DashboardView,
     children: [
-      {
-        path: 'about',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/About')
-      },
-      {
-        path: '/docs',
-        component: () => import(/* webpackChunkName: "docs" */ '@/views/Docs')
-      },
-      {
-        path: '/createwebspace',
-        component: () => import(/* webpackChunkName: "createwebspace" */ '@/views/CreateWebspace')
-      },
-      {
-        path: '/managewebspace',
-        component: () => import(/* webpackChunkName: "managewebspace" */ '@/views/ManageWebspace')
-      },
-      {
-        path: '/account',
-        component: () => import(/* webpackChunkName: "account" */ '@/views/Account')
-      }
-
+      { path: 'about', component: AboutView },
+      { path: 'docs', component: DocsView },
+      { path: 'createwebspace', component: CreateWebspaceView },
+      { path: 'managewebspace', component: ManageWebspaceView },
+      { path: 'account', component: AccountView }
     ]
   }
-
+  // TODO: 404 - not found
 ]
 
 const router = createRouter({

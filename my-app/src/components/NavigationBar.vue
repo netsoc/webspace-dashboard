@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <!-- <nav>
     <div class="menu-item">
       <a href="#" />About
     </div>
@@ -15,7 +15,7 @@
     <div class="menu-account-item">
       <a href="#" />Logout
     </div>
-  </nav>
+  </nav> -->
   <div class="side-nav-bar">
     <div class="title">
       <!--<div><img alt="Vue logo" src="../assets/logo.png"></div>-->

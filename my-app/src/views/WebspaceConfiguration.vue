@@ -5,13 +5,22 @@
     <!-- Need to add in some verification for if there is a webspace active -->
     <br>
     Startup Delay <br>
-    {{ webspaceConfig.startupDelay }} seconds
+    <!-- Need to make vmodel be an int and not a string -->
+    <input
+      v-model="newWebspaceConfig.startupDelay"
+      placeholder="Enter a value">
+     seconds
     <br>
     HTTP Port <br>
-    {{ webspaceConfig.httpPort }}
+    <input v-model="newWebspaceConfig.httpPort" placeholder="Enter a value">
     <br>
     SNI Passthrough <br>
-    {{ webspaceConfig.sniPassthrough }}
+    <input type="checkbox" id="checkbox" v-model="newWebspaceConfig.sniPassthrough">
+    <label for="checkbox">{{ newWebspaceConfig.sniPassthrough }}</label>
+    <br>
+    <button @click="updateWebConfig">
+    Update Config
+    </button>
   </div>
 </template>
 
@@ -30,6 +39,11 @@ export default {
         startupDelay: null,
         httpPort: null,
         sniPassthrough: null
+      },
+      newWebspaceConfig: {
+        startupDelay: null,
+        httpPort: null,
+        sniPassthrough: null
       }
     }
   },
@@ -45,8 +59,25 @@ export default {
       this.isLoading = true
       try {
         this.webspaceConfig = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'GET')
+        // need these independent? - can resend default value if blank box
+        this.newWebspaceConfig = this.webspaceConfig
       } catch (err) {
         alert('Unable to find webspace config data: ' + err.message)
+      }
+      this.isLoading = false
+    },
+    async updateWebConfig () {
+      this.isLoading = true
+      const body = this.newWebspaceConfig
+      try {
+        // Returns old values
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'PATCH', body)
+        // need these independent? - can resend default value if blank box
+        this.newWebspaceConfig = this.webspaceConfig
+        this.findConfig()
+        alert('Webspace Updated' + JSON.stringify(this.newWebspaceConfig))
+      } catch (err) {
+        alert('Unable to update webspace config data: ' + err.message + JSON.stringify(body))
       }
       this.isLoading = false
     }

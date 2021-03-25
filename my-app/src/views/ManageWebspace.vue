@@ -3,10 +3,12 @@
     <div class="ManageWebspace">
       <p>Manage Webspace</p>
     </div>
+    <h3>Click here to destroy your Webspace</h3>
     <div class="buttons">
       <button @click="destroyWebspace">
         Destroy Webspace
       </button>
+      <h3>Click here to reset your webspace</h3>
       <button @click="resetWebspace">
         Reset Webspace
       </button>
@@ -24,12 +26,10 @@ export default {
   methods: {
     async destroyWebspace () {
       try {
-        // add confirmation page "are you sure?" etc
         confirm('Are you sure you want to destroy this webspace?')
         // delete action
-        // need to fix it
         this.destroyWebspace = await API.fetch(
-          API.WEBSPACED_API_URL + '/webspace/self'
+          API.WEBSPACED_API_URL + '/webspace/self', 'DELETE'
         )
         // notification that it has deleted
         alert('The webspace has been successfully destroyed')
@@ -51,7 +51,7 @@ export default {
         align-items: center;
         height: 100%;
         width: 100%;
-        font-size: 40px;
+        font-size: 30px;
         font-weight: 600;
     }
 </style>

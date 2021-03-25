@@ -5,6 +5,7 @@ import LoginView from '@/views/Login.vue'
 import CreateWebspaceView from '@/views/CreateWebspace.vue'
 import ManageWebspaceView from '@/views/ManageWebspace.vue'
 import AccountView from '@/views/Account.vue'
+import WebspaceConfiguration from '@/views/WebspaceConfiguration.vue'
 import DomainsView from '@/views/Domains.vue'
 
 // TODO: user beforeEach() to check if a route is valid for the state of the user.
@@ -17,6 +18,7 @@ const routes = [
   { path: '/createwebspace', component: CreateWebspaceView },
   { path: '/managewebspace', component: ManageWebspaceView },
   { path: '/account', component: AccountView },
+  { path: '/config', component: WebspaceConfiguration },
   { path: '/domains', component: DomainsView }
   // TODO: 404 - not found
 ]

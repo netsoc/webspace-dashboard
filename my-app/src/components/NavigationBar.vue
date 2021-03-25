@@ -94,16 +94,6 @@
         </div>
       </router-link>
       <router-link
-        to="/domains"
-        active-class="active"
-        tag="button"
-        class="side-buttons"
-      >
-        <div class="link-container">
-          Domains
-        </div>
-      </router-link>
-      <router-link
         to="/login"
         active-class="active"
         tag="button"

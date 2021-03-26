@@ -71,15 +71,17 @@
     </div>
     <input
       v-model="newExternalPort"
-      placeholder="Enter an external port"
+      placeholder="External port"
     >
     <input
       v-model="newInternalPort"
-      placeholder="Enter an internal port"
+      placeholder="Internal port"
     >
     <button @click="addPortForward">
       Add Port Forward
     </button>
+    <br>
+    Leave external port blank for a random port
   </div>
 </template>
 
@@ -186,7 +188,11 @@ export default {
     },
     async addPortForward () {
       try {
-        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports/' + this.newExternalPort + '/' + this.newInternalPort, 'POST')
+        if (this.newExternalPort) {
+          await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports/' + this.newExternalPort + '/' + this.newInternalPort, 'POST')
+        } else {
+          await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports/' + this.newInternalPort, 'POST')
+        }
         this.fetchAvailablePortForwards()
       } catch (err) {
         alert('Unable to add port forward: ' + err.message)

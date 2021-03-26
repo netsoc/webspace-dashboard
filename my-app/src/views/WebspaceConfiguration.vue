@@ -55,13 +55,16 @@
   </div>
   <div>
     <p>Port Forwards</p>
+    Click on a port forward to delete it
     <br>
     <div
       v-for="(internalPort, externalPort) in availablePortForwards"
       :key="externalPort"
       :value="internalPort"
     >
-      <button>
+      <button
+        @click="removePortForward(externalPort)"
+      >
         {{ externalPort }} : {{ internalPort }}
       </button>
       <br>
@@ -187,6 +190,14 @@ export default {
         this.fetchAvailablePortForwards()
       } catch (err) {
         alert('Unable to add port forward: ' + err.message)
+      }
+    },
+    async removePortForward (externalPort) {
+      try {
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports/' + externalPort, 'DELETE')
+        this.fetchAvailablePortForwards()
+      } catch (err) {
+        alert('Unable to remove port forward: ' + err.message)
       }
     }
   }

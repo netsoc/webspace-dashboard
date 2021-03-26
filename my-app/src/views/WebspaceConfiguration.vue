@@ -30,13 +30,27 @@
     </button>
   </div>
   <div>
-    <button
+    <p>Domains</p>
+    Click on a domain to delete it
+    <br>
+    <div
       v-for="domain in availableDomains"
       :key="domain.id"
       :value="domain"
-      @click="removeDomain(domain)"
     >
-      {{ domain }}
+      <button
+        @click="removeDomain(domain)"
+      >
+        {{ domain }}
+      </button>
+      <br>
+    </div>
+    <input
+      v-model="newDomain"
+      placeholder="Enter a custom domain"
+    >
+    <button @click="addDomain">
+      Add Domain
     </button>
   </div>
 </template>
@@ -62,7 +76,8 @@ export default {
         startupDelay: null,
         httpPort: null,
         sniPassthrough: null
-      }
+      },
+      newDomain: null
     }
   },
 
@@ -95,6 +110,14 @@ export default {
         alert('Unable to fetch available domains: ' + err.message)
       }
       this.isLoading = false
+    },
+    async addDomain () {
+      try {
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/domains/' + this.newDomain, 'POST')
+        this.fetchAvailableDomains()
+      } catch (err) {
+        alert('Unable to add domain: ' + err.message)
+      }
     },
     async removeDomain (domain) {
       try {

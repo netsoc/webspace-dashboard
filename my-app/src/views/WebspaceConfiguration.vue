@@ -53,6 +53,21 @@
       Add Domain
     </button>
   </div>
+  <div>
+    <p>Port Forwards</p>
+    <br>
+    <div
+      v-for="(internalPort, externalPort) in availablePortForwards"
+      :key="externalPort"
+      :value="internalPort"
+    >
+      <button
+      >
+        {{ externalPort }} : {{ internalPort }}
+      </button>
+      <br>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -71,13 +86,14 @@ export default {
         httpPort: null,
         sniPassthrough: null
       },
-      availableDomains: null,
       newWebspaceConfig: {
         startupDelay: null,
         httpPort: null,
         sniPassthrough: null
       },
-      newDomain: null
+      availableDomains: null,
+      newDomain: null,
+      availablePortForwards: null
     }
   },
 
@@ -85,6 +101,7 @@ export default {
   created () {
     this.findConfig()
     this.fetchAvailableDomains()
+    this.fetchAvailablePortForwards()
   },
 
   methods: {
@@ -97,6 +114,21 @@ export default {
         this.newWebspaceConfig = this.webspaceConfig
       } catch (err) {
         alert('Unable to find webspace config data: ' + err.message)
+      }
+      this.isLoading = false
+    },
+    async updateWebConfig () {
+      this.isLoading = true
+      const body = this.newWebspaceConfig
+      try {
+        // Returns old values
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'PATCH', body)
+        // need these independent? - can resend default value if blank box
+        this.newWebspaceConfig = this.webspaceConfig
+        this.findConfig()
+        alert('Webspace Updated' + JSON.stringify(this.newWebspaceConfig))
+      } catch (err) {
+        alert('Unable to update webspace config data: ' + err.message + JSON.stringify(body))
       }
       this.isLoading = false
     },
@@ -127,18 +159,14 @@ export default {
         alert('Unable to remove domain: ' + err.message)
       }
     },
-    async updateWebConfig () {
+    async fetchAvailablePortForwards () {
       this.isLoading = true
-      const body = this.newWebspaceConfig
       try {
-        // Returns old values
-        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'PATCH', body)
-        // need these independent? - can resend default value if blank box
-        this.newWebspaceConfig = this.webspaceConfig
-        this.findConfig()
-        alert('Webspace Updated' + JSON.stringify(this.newWebspaceConfig))
+        const portForwards = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports')
+        this.availablePortForwards = portForwards
+        console.log(portForwards)
       } catch (err) {
-        alert('Unable to update webspace config data: ' + err.message + JSON.stringify(body))
+        alert('Unable to fetch available domains: ' + err.message)
       }
       this.isLoading = false
     }

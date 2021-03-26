@@ -94,6 +94,16 @@
         </div>
       </router-link>
       <router-link
+        to="/status"
+        active-class="active"
+        tag="button"
+        class="side-buttons"
+      >
+        <div class="link-container">
+          Status
+        </div>
+      </router-link>
+      <router-link
         to="/login"
         active-class="active"
         tag="button"

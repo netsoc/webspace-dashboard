@@ -61,12 +61,22 @@
       :key="externalPort"
       :value="internalPort"
     >
-      <button
-      >
+      <button>
         {{ externalPort }} : {{ internalPort }}
       </button>
       <br>
     </div>
+    <input
+      v-model="newExternalPort"
+      placeholder="Enter an external port"
+    >
+    <input
+      v-model="newInternalPort"
+      placeholder="Enter an internal port"
+    >
+    <button @click="addPortForward">
+      Add Port Forward
+    </button>
   </div>
 </template>
 
@@ -93,7 +103,9 @@ export default {
       },
       availableDomains: null,
       newDomain: null,
-      availablePortForwards: null
+      availablePortForwards: null,
+      newExternalPort: null,
+      newInternalPort: null
     }
   },
 
@@ -164,11 +176,18 @@ export default {
       try {
         const portForwards = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports')
         this.availablePortForwards = portForwards
-        console.log(portForwards)
       } catch (err) {
-        alert('Unable to fetch available domains: ' + err.message)
+        alert('Unable to fetch available port forwards: ' + err.message)
       }
       this.isLoading = false
+    },
+    async addPortForward () {
+      try {
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports/' + this.newExternalPort + '/' + this.newInternalPort, 'POST')
+        this.fetchAvailablePortForwards()
+      } catch (err) {
+        alert('Unable to add port forward: ' + err.message)
+      }
     }
   }
 }

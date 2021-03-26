@@ -5,16 +5,15 @@
     <!-- Need to add in some verification for if there is a webspace active -->
     <br>
     Startup Delay <br>
-    <!-- Need to make vmodel be an int and not a string -->
     <input
-      v-model="newWebspaceConfig.startupDelay"
+      v-model.number="newWebspaceConfig.startupDelay"
       placeholder="Enter a value"
     >
     seconds
     <br>
     HTTP Port <br>
     <input
-      v-model="newWebspaceConfig.httpPort"
+      v-model.number="newWebspaceConfig.httpPort"
       placeholder="Enter a value"
     >
     <br>

@@ -1,0 +1,23 @@
+<template>
+  <div class="Error">
+    <p>error goes here</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Error'
+}
+</script>
+
+<style scoped>
+.Error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 40px;
+  font-weight: 600;
+}
+</style>

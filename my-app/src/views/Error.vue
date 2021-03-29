@@ -1,12 +1,18 @@
 <template>
   <div class="Error">
-    <p>error goes here</p>
+    <p>Error {{ errorCode }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Error'
+  name: 'Error',
+  props: {
+    errorCode: {
+      type: Number,
+      required: true
+    }
+  }
 }
 </script>
 

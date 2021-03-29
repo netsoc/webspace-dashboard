@@ -21,7 +21,7 @@ const routes = [
   { path: '/account', component: AccountView },
   { path: '/config', component: WebspaceConfiguration },
   { path: '/status', component: Status },
-  { path: '/:pathMatch(.*)', component: ErrorView }
+  { path: '/:pathMatch(.*)', component: ErrorView, props: { errorCode: 404 } }
 ]
 
 const router = createRouter({

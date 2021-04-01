@@ -30,7 +30,7 @@
           width="200"
         >
       </div>
-      Netsoc Webspaces
+      <h1>Netsoc Webspaces</h1>
     </div>
     <div class="menu-items">
       <router-link
@@ -139,6 +139,12 @@ nav {
   align-items: center;
   justify-content: center ;
 }
+
+.title h1 {
+        color: white;
+        font-size: 24px;
+        margin-top: 0px ;
+    }
 
 <style scoped >
     .title {

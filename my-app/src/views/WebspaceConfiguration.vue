@@ -1,87 +1,89 @@
 
 <template>
-  <div>
-    <p>Webspace Configuration</p>
-    <!-- Need to add in some verification for if there is a webspace active -->
-    <br>
-    Startup Delay <br>
-    <input
-      v-model.number="newWebspaceConfig.startupDelay"
-      placeholder="Enter a value"
-    >
-    seconds
-    <br>
-    HTTP Port <br>
-    <input
-      v-model.number="newWebspaceConfig.httpPort"
-      placeholder="Enter a value"
-    >
-    <br>
-    SNI Passthrough <br>
-    <input
-      id="checkbox"
-      v-model="newWebspaceConfig.sniPassthrough"
-      type="checkbox"
-    >
-    <label for="checkbox">{{ newWebspaceConfig.sniPassthrough }}</label>
-    <br>
-    <button @click="updateWebConfig">
-      Update Config
-    </button>
-  </div>
-  <div>
-    <p>Domains</p>
-    Click on a domain to delete it
-    <br>
-    <div
-      v-for="domain in availableDomains"
-      :key="domain.id"
-      :value="domain"
-    >
-      <button
-        @click="removeDomain(domain)"
+  <div class="general">
+    <div class="config">
+      <p>Webspace Configuration</p>
+      <!-- Need to add in some verification for if there is a webspace active -->
+      <br>
+      Startup Delay <br>
+      <input
+        v-model.number="newWebspaceConfig.startupDelay"
+        placeholder="Enter a value"
       >
-        {{ domain }}
+      seconds
+      <br>
+      HTTP Port <br>
+      <input
+        v-model.number="newWebspaceConfig.httpPort"
+        placeholder="Enter a value"
+      >
+      <br>
+      SNI Passthrough <br>
+      <input
+        id="checkbox"
+        v-model="newWebspaceConfig.sniPassthrough"
+        type="checkbox"
+      >
+      <label for="checkbox">{{ newWebspaceConfig.sniPassthrough }}</label>
+      <br>
+      <button @click="updateWebConfig">
+        Update Config
+      </button>
+    </div>
+    <div class="domains">
+      <p>Domains</p>
+      Click on a domain to delete it
+      <br>
+      <div
+        v-for="domain in availableDomains"
+        :key="domain.id"
+        :value="domain"
+      >
+        <button
+          @click="removeDomain(domain)"
+        >
+          {{ domain }}
+        </button>
+        <br>
+      </div>
+      <input
+        v-model="newDomain"
+        placeholder="Enter a custom domain"
+      >
+      <button @click="addDomain">
+        Add Domain
+      </button>
+    </div>
+    <div class="ports">
+      <p>Port Forwards</p>
+      Click on a port forward to delete it
+      <br>
+      <div
+        v-for="(internalPort, externalPort) in availablePortForwards"
+        :key="externalPort"
+        :value="internalPort"
+      >
+        <button
+          @click="removePortForward(externalPort)"
+        >
+          {{ externalPort }} : {{ internalPort }}
+        </button>
+        <br>
+      </div>
+      <input
+        v-model="newExternalPort"
+        placeholder="External port"
+      >
+      <input
+        v-model="newInternalPort"
+        placeholder="Internal port"
+      >
+      <button @click="addPortForward">
+        Add Port Forward
       </button>
       <br>
+      Leave external port blank for a random port
     </div>
-    <input
-      v-model="newDomain"
-      placeholder="Enter a custom domain"
-    >
-    <button @click="addDomain">
-      Add Domain
-    </button>
-  </div>
-  <div>
-    <p>Port Forwards</p>
-    Click on a port forward to delete it
-    <br>
-    <div
-      v-for="(internalPort, externalPort) in availablePortForwards"
-      :key="externalPort"
-      :value="internalPort"
-    >
-      <button
-        @click="removePortForward(externalPort)"
-      >
-        {{ externalPort }} : {{ internalPort }}
-      </button>
-      <br>
-    </div>
-    <input
-      v-model="newExternalPort"
-      placeholder="External port"
-    >
-    <input
-      v-model="newInternalPort"
-      placeholder="Internal port"
-    >
-    <button @click="addPortForward">
-      Add Port Forward
-    </button>
-    <br>
-    Leave external port blank for a random port
   </div>
 </template>
 
@@ -209,3 +211,27 @@ export default {
   }
 }
 </script>
+
+<style >
+.config
+{
+  flex-direction: column;
+  text-align: left;
+  padding: 6px 8px 6px 16px;;
+  margin-top: 20px;
+}
+.domains
+{
+  flex-direction: column;
+  text-align: left;
+  padding: 6px 8px 6px 16px;;
+  margin-top: 20px;
+}
+.ports
+{
+  flex-direction: column;
+  text-align: left;
+  padding: 6px 8px 6px 16px;;
+  margin-top: 20px;
+}
+</style>

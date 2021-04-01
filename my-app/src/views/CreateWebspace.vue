@@ -182,8 +182,8 @@ export default {
 <style>
   .CreateWebspace {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: left;
+        align-items: left;
         height: 100%;
         width: 100%;
         font-size: 40px;
@@ -200,4 +200,5 @@ export default {
     margin: 0px 0px 10px 0px;
     width: 200px;
   }
+
 </style>

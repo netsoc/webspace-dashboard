@@ -17,7 +17,7 @@ const routes = [
   { path: '/', component: AboutView },
   { path: '/docs', component: DocsView },
   { path: '/login', component: LoginView },
-  { path: '/createwebspace', component: CreateWebspaceView },
+  { path: '/createwebspace', name: 'home', component: CreateWebspaceView },
   { path: '/managewebspace', component: ManageWebspaceView },
   { path: '/account', component: AccountView },
   { path: '/config', component: WebspaceConfiguration },

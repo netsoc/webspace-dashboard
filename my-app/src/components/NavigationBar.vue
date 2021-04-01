@@ -103,6 +103,7 @@
           Status
         </div>
       </router-link>
+      <!--
       <router-link
         to="/console"
         active-class="active"
@@ -113,6 +114,7 @@
           Console
         </div>
       </router-link>
+      -->
       <router-link
         to="/login"
         active-class="active"

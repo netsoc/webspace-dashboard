@@ -14,9 +14,9 @@ import Console from '@/views/Console.vue'
 // e.g. don't let users without an authentication token access /account
 // or don't let users with a token access /login
 const routes = [
-  { path: '/', component: AboutView },
+  { path: '/', component: LoginView },
+  { path: '/about', component: AboutView },
   { path: '/docs', component: DocsView },
-  { path: '/login', component: LoginView },
   { path: '/createwebspace', name: 'home', component: CreateWebspaceView },
   { path: '/managewebspace', component: ManageWebspaceView },
   { path: '/account', component: AccountView },

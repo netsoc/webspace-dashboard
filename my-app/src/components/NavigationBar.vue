@@ -34,7 +34,7 @@
     </div>
     <div class="menu-items">
       <router-link
-        to="/"
+        to="/about"
         active-class="active"
         tag="button"
         class="side-buttons"
@@ -116,7 +116,7 @@
       </router-link>
       -->
       <router-link
-        to="/login"
+        to="/"
         active-class="active"
         tag="button"
         class="side-buttons"
@@ -126,7 +126,7 @@
         </div>
       </router-link>
       <router-link
-        to="/"
+        to="/logout"
         active-class="active"
         tag="button"
         class="side-buttons"

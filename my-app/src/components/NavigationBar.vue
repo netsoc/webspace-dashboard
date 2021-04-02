@@ -105,6 +105,7 @@
         active-class="active"
         tag="button"
         class="side-buttons"
+        @click="logout()"
       >
         <div class="link-container">
           Logout
@@ -139,6 +140,11 @@ export default {
           this.isWebspaceInitialized = false
         }
       }
+    }
+  },
+  methods: {
+    logout () {
+      API.setToken('')
     }
   }
 }

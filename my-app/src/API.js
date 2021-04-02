@@ -12,10 +12,21 @@ export function userIsLoggedIn () {
 
 // Set authToken and verify the if not empty
 export function setToken (newToken) {
+  // Invalidate the previous token
+  // TODO (Ted): I'm getting a 'Failed to fetch' error when I attempt this.
+  //             I'm not sure if the request was successful or not.
+  if (userIsLoggedIn() && token !== newToken) {
+    fetch(IAM_API_URL + '/users/self/login', 'DELETE').catch(err => {
+      // Failed to invalidate old JWT
+      console.error(err.message)
+    })
+  }
+
+  // Update and validate new token
   token = newToken
   if (userIsLoggedIn()) {
     fetch(IAM_API_URL + '/users/self/token').catch(err => {
-      // Failed to validate new JWT
+      // Failed to validate old JWT
       console.error(err.message)
       token = ''
     })

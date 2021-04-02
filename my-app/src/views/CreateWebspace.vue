@@ -166,9 +166,8 @@ export default {
       this.isLoading = true
       try {
         const body = { 'image': this.webspaceConfig.image.aliases[0].name }
-        const res = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'POST', body)
-        // TODO: route to another page like /managewebspace instead
-        alert('New webspace successful initialized: ' + JSON.stringify(res))
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'POST', body)
+        this.$router.push('managewebspace')
       } catch (err) {
         // TODO: show error in HTML instead
         alert('Unable to initialize new webspace: ' + err.message)

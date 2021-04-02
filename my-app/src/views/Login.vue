@@ -49,16 +49,11 @@ export default {
         const body = { 'password': this.password }
         const data = await API.fetch(`${API.IAM_API_URL}/users/${this.username}/login`, 'POST', body)
         API.setToken(data.token)
-        // TODO: route to a new page page like /managewebspace instead
-        alert('Success!')
-        this.redirect()
+        this.$router.push('account')
       } catch (err) {
         // TODO: show an error in HTML instead
         alert('Unable to login: ' + err.message)
       }
-    },
-    redirect () {
-      this.$router.push({ name: 'createWebspace' })
     }
   }
 }

@@ -27,12 +27,8 @@ export default {
     async destroyWebspace () {
       try {
         confirm('Are you sure you want to destroy this webspace?')
-        // delete action
-        this.destroyWebspace = await API.fetch(
-          API.WEBSPACED_API_URL + '/webspace/self', 'DELETE'
-        )
-        // notification that it has deleted
-        alert('The webspace has been successfully destroyed')
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'DELETE')
+        this.$router.push('createwebspace')
       } catch (err) {
         alert('Unable to destroy webspace' + err.message)
       }

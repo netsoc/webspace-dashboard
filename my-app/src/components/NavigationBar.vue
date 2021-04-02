@@ -1,26 +1,6 @@
-<!-- TODO: Buttons should be shown dynamically based on if the user is logged in -->
-
 <template>
-  <!-- <nav>
-    <div class="menu-item">
-      <a href="#" />About
-    </div>
-    <div class="menu-item">
-      <a href="#" />Docs
-    </div>
-    <div class="menu-item">
-      <a href="#" />Create Webspace
-    </div>
-    <div class="menu-account-item">
-      <a href="#" />Account
-    </div>
-    <div class="menu-account-item">
-      <a href="#" />Logout
-    </div>
-  </nav> -->
   <div class="side-nav-bar">
     <div class="title">
-      <!--<div><img alt="Vue logo" src="../assets/logo.png"></div>-->
       <div>
         <img
           alt="Vue logo"
@@ -54,6 +34,7 @@
         </div>
       </router-link>
       <router-link
+        v-if="isUserLoggedIn && !isWebspaceInitialized"
         to="/createwebspace"
         active-class="active"
         tag="button"
@@ -64,6 +45,7 @@
         </div>
       </router-link>
       <router-link
+        v-if="isUserLoggedIn && isWebspaceInitialized"
         to="/managewebspace"
         active-class="active"
         tag="button"
@@ -74,6 +56,7 @@
         </div>
       </router-link>
       <router-link
+        v-if="isUserLoggedIn"
         to="/account"
         active-class="active"
         tag="button"
@@ -84,6 +67,7 @@
         </div>
       </router-link>
       <router-link
+        v-if="isUserLoggedIn && isWebspaceInitialized"
         to="/config"
         active-class="active"
         tag="button"
@@ -94,6 +78,7 @@
         </div>
       </router-link>
       <router-link
+        v-if="isUserLoggedIn && isWebspaceInitialized"
         to="/status"
         active-class="active"
         tag="button"
@@ -104,6 +89,7 @@
         </div>
       </router-link>
       <router-link
+        v-if="!isUserLoggedIn"
         to="/"
         active-class="active"
         tag="button"
@@ -114,6 +100,7 @@
         </div>
       </router-link>
       <router-link
+        v-if="isUserLoggedIn"
         to="/"
         active-class="active"
         tag="button"
@@ -128,8 +115,33 @@
 </template>
 
 <script>
+import * as API from '@/API.js'
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  data () {
+    return {
+      isUserLoggedIn: false,
+      isWebspaceInitialized: false
+    }
+  },
+  watch: {
+    // Update the view if the route changes
+    async $route (to, from) {
+      // Check if the user is logged in
+      this.isUserLoggedIn = API.userIsLoggedIn()
+
+      // Check if the user has a webspace
+      this.isWebspaceInitialized = false
+      if (this.isUserLoggedIn) {
+        try {
+          await API.fetch(API.WEBSPACED_API_URL + '/webspace/self')
+          this.isWebspaceInitialized = true
+        } catch (err) {
+          this.isWebspaceInitialized = false
+        }
+      }
+    }
+  }
 }
 </script>
 

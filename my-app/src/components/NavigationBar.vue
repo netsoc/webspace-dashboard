@@ -104,7 +104,7 @@
         </div>
       </router-link>
       <router-link
-        to="/login"
+        to="/"
         active-class="active"
         tag="button"
         class="side-buttons"

@@ -51,10 +51,14 @@ export default {
         API.setToken(data.token)
         // TODO: route to a new page page like /managewebspace instead
         alert('Success!')
+        this.redirect()
       } catch (err) {
         // TODO: show an error in HTML instead
         alert('Unable to login: ' + err.message)
       }
+    },
+    redirect () {
+      this.$router.push({ name: 'createWebspace' })
     }
   }
 }

@@ -34,7 +34,7 @@
     </div>
     <div class="menu-items">
       <router-link
-        to="/"
+        to="/about"
         active-class="active"
         tag="button"
         class="side-buttons"

@@ -131,7 +131,6 @@ export default {
       this.isUserLoggedIn = API.userIsLoggedIn()
 
       // Check if the user has a webspace
-      this.isWebspaceInitialized = false
       if (this.isUserLoggedIn) {
         try {
           await API.fetch(API.WEBSPACED_API_URL + '/webspace/self')

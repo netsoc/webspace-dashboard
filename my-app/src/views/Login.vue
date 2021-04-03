@@ -11,12 +11,14 @@
     <br>
     <input
       v-model="username"
+      class="credentialInput"
       type="text"
     ><br><br>
     <label for="password">Password:</label>
     <br>
     <input
       v-model="password"
+      class="credentialInput"
       type="password"
     >
     <br>
@@ -60,8 +62,29 @@ export default {
 </script>
 
 <style>
+
+.credentialInput{
+  border-radius: 10px;
+  block-size: 30px;
+  transition: 0.25px;
+  outline: none;
+}
+.credentialInput:focus{
+  width:220px;
+  block-size: 35px;
+  border-color: black;
+}
 .login {
   margin-top: 170px;
+  width: 450px;
+  height: 380px;
+  top: 25%;
+  left: 55%;
+  padding: 60px 30px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  box-shadow: 8px 8px 50px #0055FF;
 }
 .login h1 {
   font-size: 40px;
@@ -85,6 +108,12 @@ export default {
   display: inline-block;
   font-size: 16px;
   margin-left: 100px;
+  border-radius: 10px;
+  outline: none;
+}
+.login button:hover {
+  padding: 10px 50px;
+
 }
 .login-forgot-password {
   margin-top: 5px;

@@ -162,6 +162,7 @@ export default {
   margin-top: 20px;
   margin-left: 20px;
   text-align: left;
+  color: #0040d0;
 }
 
 .status button {

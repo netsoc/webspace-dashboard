@@ -3,8 +3,6 @@
   <div class="general">
     <div class="config">
       <p>Webspace Configuration</p>
-      <!-- Need to add in some verification for if there is a webspace active -->
-      <br>
       Startup Delay <br>
       <input
         v-model.number="newWebspaceConfig.startupDelay"
@@ -233,5 +231,11 @@ export default {
   text-align: left;
   padding: 6px 8px 6px 16px;;
   margin-top: 20px;
+}
+.general p
+{
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 </style>

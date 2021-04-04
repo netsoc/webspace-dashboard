@@ -8,6 +8,7 @@
       <button @click="destroyWebspace">
         Destroy Webspace
       </button>
+      <br>
       <h3>Click here to reset your webspace</h3>
       <button @click="resetWebspace">
         Reset Webspace
@@ -43,11 +44,30 @@ export default {
 <style scoped>
     .ManageWebspace {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: left;
+        align-items: left;
         height: 100%;
         width: 100%;
         font-size: 30px;
         font-weight: 600;
+        margin-left: 20px;
+        margin-top: 20px;
     }
+
+    h3 {
+        display: flex;
+        text-align: left;
+        margin-left: 20px;
+    }
+
+    .buttons {
+      flex-direction: column;
+      text-align: left;
+      align-items: left;
+      margin-left: 20px;
+    }
+    .buttons h3 {
+      margin-left:0px;
+    }
+
 </style>

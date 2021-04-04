@@ -1,4 +1,5 @@
 <template>
+<div class="CreateWebspace">
   <div v-if="!isLoading">
     <h2>Create Webspace</h2>
     <p>Create and initialize your new webspace.</p>
@@ -64,6 +65,7 @@
       type="checkbox"
     >
     <label for="webspaceSSHEnabled">Enable SSH</label>
+    <br>
     <div
       v-if="webspaceConfig.SSHEnabled"
       class="additional-config-ssh-section"
@@ -75,6 +77,7 @@
         type="checkbox"
       >
       <label for="webspaceSSHPasswordEnabled">Enable SSH password login</label>
+      <br>
       <input
         id="webspaceSSHPKAEnabled"
         v-model="webspaceConfig.SSHPKAEnabled"
@@ -90,6 +93,7 @@
       type="checkbox"
     >
     <label for="webspaceSetupNginx">Setup nginx webserver</label>
+    <br>
     <input
       id="webspaceBootImmediately"
       v-model="webspaceConfig.bootImmediately"
@@ -97,7 +101,7 @@
       type="checkbox"
     >
     <label for="webspaceBootImmediately">Boot immediately</label>
-
+    <br>
     <button
       class="primary-button"
       @click="initiateWebspace"
@@ -111,6 +115,7 @@
     <!-- TODO: Animation to show page is still responsive -->
     <span>Loading...</span>
   </div>
+</div>
 </template>
 
 <script>
@@ -183,10 +188,12 @@ export default {
         display: flex;
         justify-content: left;
         align-items: left;
+        text-align: left;
         height: 100%;
         width: 100%;
-        font-size: 40px;
         font-weight: 600;
+        margin-left: 20px;
+        margin-top: 20px;
   }
 
   .context {

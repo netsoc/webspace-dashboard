@@ -28,13 +28,14 @@
         Update Config
       </button>
     </div>
-    <div class="domains">
+    <div class="list">
       <p>Domains</p>
-      Click on a domain to delete it
+      Add custom domains for your webspace.
       <br>
       <div
         v-for="domain in availableDomains"
         :key="domain.id"
+        class="listItem"
         :value="domain"
       >
         <input
@@ -43,7 +44,7 @@
         <button
           @click="removeDomain(domain)"
         >
-          X
+          ×
         </button>
         <br>
       </div>
@@ -55,13 +56,16 @@
         +
       </button>
     </div>
-    <div class="ports">
+    <div class="list">
       <p>Port Forwards</p>
-      Click on a port forward to delete it
+      Create port forwarding rules for your webspace.
+      <br>
+      Leave external port blank for a random port
       <br>
       <div
         v-for="(internalPort, externalPort) in availablePortForwards"
         :key="externalPort"
+        class="listItem"
         :value="internalPort"
       >
         <input
@@ -73,7 +77,7 @@
         <button
           @click="removePortForward(externalPort)"
         >
-          X
+          ×
         </button>
         <br>
       </div>
@@ -88,8 +92,6 @@
       <button @click="addPortForward">
         +
       </button>
-      <br>
-      Leave external port blank for a random port
     </div>
   </div>
 </template>
@@ -233,6 +235,18 @@ button {
   border-radius: 5px;
 }
 
+.listItem {
+  margin-bottom: 2px;
+}
+.list button {
+  padding: 0px 4px 0px 4px;
+  margin-left: 0px;
+}
+
+.list input {
+  margin-right: 2px;
+}
+
 .config
 {
   flex-direction: column;
@@ -240,14 +254,7 @@ button {
   padding: 6px 8px 6px 16px;;
   margin-top: 20px;
 }
-.domains
-{
-  flex-direction: column;
-  text-align: left;
-  padding: 6px 8px 6px 16px;;
-  margin-top: 20px;
-}
-.ports
+.list
 {
   flex-direction: column;
   text-align: left;

@@ -126,7 +126,7 @@ export default {
       try {
         this.startContainer = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/state', 'POST')
         // notification that the container has started
-        alert('You have successfully start a webspace container.')
+        alert('You have successfully started your webspace container.')
       } catch (err) {
         alert('Unable to start a webspace container. ' + err.message)
       }
@@ -138,7 +138,7 @@ export default {
         confirm('Are you sure you want to reboot the current container?')
         this.rebootContainer = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/state', 'PUT')
         // notification that the container has rebooted
-        alert('You have successfully reboot a webspace container.')
+        alert('You have successfully rebooted your webspace container.')
       } catch (err) {
         alert('Unable to reboot the current webspace container. ' + err.message)
       }
@@ -149,8 +149,8 @@ export default {
       try {
         confirm('Are you sure you want to shut down the current container?')
         this.shutDownContainer = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/state', 'DELETE')
-        // notification that the container has deleted
-        alert('You have successfully delete a webspace container.')
+        // notification that the container has shut down
+        alert('You have successfully shut down your webspace container.')
       } catch (err) {
         alert('Unable to delete the current webspace container. ' + err.message)
       }

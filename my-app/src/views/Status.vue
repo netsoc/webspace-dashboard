@@ -4,7 +4,10 @@
     <br>
     <div v-if="webspaceState.running">
       <div class="indicator">
-      <status-indicator active pulse></status-indicator>
+        <status-indicator
+          active
+          pulse
+        />
       </div>
       <p>Online</p>
       <time>{{ readableTimes(webspaceState.uptime) }}</time>
@@ -19,7 +22,10 @@
       </button>
     </div>
     <div v-else>
-      <status-indicator negative pulse></status-indicator>
+      <status-indicator
+        negative
+        pulse
+      />
       <p>Offline</p>
       <button @click="startContainer">
         Start Container
@@ -34,7 +40,10 @@
     <br>
     <div v-if="webspaceState.running">
       <h3>Resource Usage</h3>
-      <status-indicator active pulse></status-indicator>
+      <status-indicator
+        active
+        pulse
+      />
       <p>eth0</p> {{ webspaceState.networkInterfaces.eth0.mac }} <br>
       bytesReceived: {{ webspaceState.networkInterfaces.eth0.counters.bytesReceived }}<br>
       bytesSent:  {{ webspaceState.networkInterfaces.eth0.counters.bytesSent }}<br>

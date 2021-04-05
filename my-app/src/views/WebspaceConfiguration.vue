@@ -37,10 +37,13 @@
         :key="domain.id"
         :value="domain"
       >
+        <input
+          :placeholder="domain"
+        >
         <button
           @click="removeDomain(domain)"
         >
-          {{ domain }}
+          X
         </button>
         <br>
       </div>
@@ -49,7 +52,7 @@
         placeholder="Enter a custom domain"
       >
       <button @click="addDomain">
-        Add Domain
+        +
       </button>
     </div>
     <div class="ports">
@@ -61,10 +64,16 @@
         :key="externalPort"
         :value="internalPort"
       >
+        <input
+          :placeholder="externalPort"
+        >
+        <input
+          :placeholder="internalPort"
+        >
         <button
           @click="removePortForward(externalPort)"
         >
-          {{ externalPort }} : {{ internalPort }}
+          X
         </button>
         <br>
       </div>
@@ -77,7 +86,7 @@
         placeholder="Internal port"
       >
       <button @click="addPortForward">
-        Add Port Forward
+        +
       </button>
       <br>
       Leave external port blank for a random port
@@ -211,6 +220,19 @@ export default {
 </script>
 
 <style >
+button {
+  background-color: #0055FF; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 25px;
+  border-radius: 5px;
+}
+
 .config
 {
   flex-direction: column;

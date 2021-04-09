@@ -13,6 +13,30 @@
       <button @click="resetWebspace">
         Reset Webspace
       </button>
+      <!-- dunno if this should be here -->
+      <h3>Select an LXD Image</h3>
+      <select
+        v-model="webspaceConfig.image"
+        class="select-menu image-selection-menu"
+      >
+        <option
+          disabled
+          :value="null"
+        >
+          Select an Image
+        </option>
+        <option
+          v-for="image in availableImages"
+          :key="image.id"
+          :value="image"
+        >
+          {{ image.aliases[0].name }}
+        </option>
+      </select>
+      <div>
+        v-if="webspaceConfig.image"
+        class="image-details-section"
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +46,12 @@ import * as API from '@/API.js'
 export default {
   name: 'ManageWebspace',
   data () {
-    return {}
+    return {
+      isLoading: true,
+      // Array of images fetched
+      availableImages: null
+      // Does new webspace configuration go here? or is the API call enough
+    }
   },
   methods: {
     async destroyWebspace () {
@@ -34,8 +63,42 @@ export default {
         alert('Unable to destroy webspace' + err.message)
       }
     },
-    resetWebspace () {
-      alert('TODO')
+    // Retrieves all the available LDX images from the Netsoc Webspaced API
+    // Duplication of code from create webspace component
+    async fetchAvailableImages () {
+      this.isLoading = true
+      try {
+        const images = await API.fetch(API.WEBSPACED_API_URL + '/images')
+        this.availableImages = images
+      } catch (err) {
+        // TODO: show error in HTML instead - maybe even navigate to an network error page?
+        alert('Unable to fetch available OS images: ' + err.message)
+      }
+      this.isLoading = false
+    },
+    async resetWebspace () {
+      try {
+        confirm('are you sure you want to reset this webspace?')
+        // ask them which LXD image they want
+        // **pop in teds dropdown menu stuff here
+        this.fetchAvailableImages()
+        // retrieve the webspace and config stuff (3x GET requests)
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'GET')
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/domains', 'GET')
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports', 'GET')
+        // delete the webspace
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'DELETE')
+        // Initialise the new webspace
+        // not sure if this will apply the selected image or not
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'POST')
+        // Apply all the configurations
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'POST')
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/domains', 'POST')
+        await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports', 'POST')
+        // I presume theres no notification method needed here?
+      } catch (err) {
+        alert('Unable to reset webspace ' + err.message)
+      }
     }
   }
 }

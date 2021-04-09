@@ -154,9 +154,9 @@ export default {
         // need these independent? - can resend default value if blank box
         this.newWebspaceConfig = this.webspaceConfig
         this.findConfig()
-        alert('Webspace Updated' + JSON.stringify(this.newWebspaceConfig))
+        alert('Webspace Updated')
       } catch (err) {
-        alert('Unable to update webspace config data: ' + err.message + JSON.stringify(body))
+        alert('Unable to update webspace config data: ' + err.message)
       }
       this.isLoading = false
     },

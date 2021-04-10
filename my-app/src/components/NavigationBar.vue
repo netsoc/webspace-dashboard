@@ -100,6 +100,17 @@
         </div>
       </router-link>
       <router-link
+        v-if="isUserLoggedIn && isWebspaceInitialized"
+        to="/console"
+        active-class="active"
+        tag="button"
+        class="side-buttons"
+      >
+        <div class="link-container">
+          Console
+        </div>
+      </router-link>
+      <router-link
         v-if="isUserLoggedIn"
         to="/"
         active-class="active"

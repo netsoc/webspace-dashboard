@@ -14,6 +14,7 @@
         Reset Webspace
       </button>
       <!-- dunno if this should be here -->
+      <!--
       <h3>Select an LXD Image</h3>
       <select
         v-model="webspaceConfig.image"
@@ -37,6 +38,7 @@
         v-if="webspaceConfig.image"
         class="image-details-section"
       </div>
+    -->
     </div>
   </div>
 </template>

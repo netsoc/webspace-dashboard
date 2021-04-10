@@ -8,6 +8,7 @@ import AccountView from '@/views/Account.vue'
 import WebspaceConfiguration from '@/views/WebspaceConfiguration.vue'
 import Status from '@/views/Status.vue'
 import ErrorView from '@/views/Error.vue'
+import Console from '@/views/Console.vue'
 
 // TODO: user beforeEach() to check if a route is valid for the state of the user.
 // e.g. don't let users without an authentication token access /account
@@ -21,6 +22,7 @@ const routes = [
   { path: '/account', component: AccountView },
   { path: '/config', component: WebspaceConfiguration },
   { path: '/status', component: Status },
+  { path: '/console', component: Console },
   { path: '/:pathMatch(.*)', component: ErrorView, props: { errorCode: 404 } }
 ]
 

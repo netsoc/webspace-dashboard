@@ -72,7 +72,8 @@ export default {
 .credentialInput:focus{
   width:220px;
   block-size: 35px;
-  border-color: black;
+  border-color:#0055FF;
+  box-shadow: 2px 2px 6px #0055FF;
 }
 .login {
   margin-top: 170px;

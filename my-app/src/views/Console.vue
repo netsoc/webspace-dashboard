@@ -3,17 +3,24 @@
     <div class="consoleLogTitle">
       <p>Console Log</p>
     </div>
-    <h3 class="content">Click here to clea Webspace Console Log</h3>
+    <h3 class="content">
+      Click here to clea Webspace Console Log
+    </h3>
     <div class="buttons">
       <button @click="clearConsole">
         Clear Console Log
       </button>
     </div>
+    <div
+      id="terminal"
+      ref="terminal"
+    />
   </div>
 </template>
 
 <script>
 import * as API from '@/API.js'
+import { Terminal } from 'xterm'
 export default {
   name: 'Console',
   data () {
@@ -24,6 +31,11 @@ export default {
   created () {
     this.retrieveConsoleLog()
     // this.drawStatusRect()
+  },
+  mounted () {
+    let term = new Terminal()
+    term.open(this.$refs['terminal'])
+    term.write('This is a terminal made with xterm.js. Hopefully you can attach to your webspace soon.')
   },
   methods: {
     async clearConsole () {

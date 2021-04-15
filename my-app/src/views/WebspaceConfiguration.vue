@@ -93,16 +93,20 @@
         +
       </button>
     </div>
+    <ManageWebspace />
   </div>
 </template>
 
 <script>
 import * as API from '@/API.js'
+import ManageWebspace from '@/views/ManageWebspace'
 
 export default {
 
   name: 'WebspaceConfiguration',
-
+  components: {
+    ManageWebspace
+  },
   data () {
     return {
       isLoading: true,

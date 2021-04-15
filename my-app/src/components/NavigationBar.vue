@@ -44,7 +44,7 @@
           Create Webspace
         </div>
       </router-link>
-      <router-link
+      <!--router-link
         v-if="isUserLoggedIn && isWebspaceInitialized"
         to="/managewebspace"
         active-class="active"
@@ -54,7 +54,7 @@
         <div class="link-container">
           Manage Webspace
         </div>
-      </router-link>
+      </router-link-->
       <router-link
         v-if="isUserLoggedIn"
         to="/account"

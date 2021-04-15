@@ -3,7 +3,7 @@ import AboutView from '@/views/About.vue'
 import DocsView from '@/views/Docs.vue'
 import LoginView from '@/views/Login.vue'
 import CreateWebspaceView from '@/views/CreateWebspace.vue'
-import ManageWebspaceView from '@/views/ManageWebspace.vue'
+// import ManageWebspaceView from '@/views/ManageWebspace.vue'
 import AccountView from '@/views/Account.vue'
 import WebspaceConfiguration from '@/views/WebspaceConfiguration.vue'
 import Status from '@/views/Status.vue'
@@ -18,7 +18,7 @@ const routes = [
   { path: '/about', component: AboutView },
   { path: '/docs', component: DocsView },
   { path: '/createwebspace', component: CreateWebspaceView },
-  { path: '/managewebspace', component: ManageWebspaceView },
+  // { path: '/managewebspace', component: ManageWebspaceView },
   { path: '/account', component: AccountView },
   { path: '/config', component: WebspaceConfiguration },
   { path: '/status', component: Status },

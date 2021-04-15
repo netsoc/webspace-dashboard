@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="ManageWebspace">
       <p>Manage Webspace</p>
-    </div>
     <h3>Click here to destroy your Webspace</h3>
     <div class="buttons">
       <button @click="destroyWebspace">
@@ -107,7 +105,7 @@ export default {
 </script>
 
 <style scoped>
-    .ManageWebspace {
+    p {
         display: flex;
         justify-content: left;
         align-items: left;
@@ -123,6 +121,7 @@ export default {
         display: flex;
         text-align: left;
         margin-left: 20px;
+        font-size: 15px;
     }
 
     .buttons {

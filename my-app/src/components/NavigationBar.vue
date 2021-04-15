@@ -140,22 +140,20 @@ export default {
     // Update the view if the route changes
     async $route (to, from) {
       // Check if the user is logged in
-      this.isUserLoggedIn = API.userIsLoggedIn()
-
-      // Check if the user has a webspace
+      this.isUserLoggedIn = await API.isUserLoggedIn()
+      // Check if the user owns a webspace
       if (this.isUserLoggedIn) {
-        try {
-          await API.fetch(API.WEBSPACED_API_URL + '/webspace/self')
-          this.isWebspaceInitialized = true
-        } catch (err) {
-          this.isWebspaceInitialized = false
-        }
+        API.fetch(API.WEBSPACED_API_URL + '/webspace/self')
+          .then(() => { this.isWebspaceInitialized = true })
+          .catch(() => { this.isWebspaceInitialized = false })
+      } else {
+        this.isWebspaceInitialized = false
       }
     }
   },
   methods: {
     logout () {
-      API.setToken('')
+      API.clearToken()
     }
   }
 }

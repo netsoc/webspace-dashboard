@@ -1,40 +1,37 @@
 const https = require('https')
 
-// TODO: move jwt to localstorage instead of this variable
-let token = ''
-
 export const WEBSPACED_API_URL = 'webspaced.netsoc.ie/v1'
 export const IAM_API_URL = 'iam.netsoc.ie/v1'
 
-export function userIsLoggedIn () {
-  return token.length !== 0
+// Checks if the user has a valid token
+export async function isUserLoggedIn () {
+  // Check if a token is set
+  if (localStorage.getItem('token') === null) {
+    return false
+  }
+
+  // Check if the token is valid
+  try {
+    await fetch(IAM_API_URL + '/users/self/token')
+    return true
+  } catch (err) {
+    return false
+  }
 }
 
-// Set authToken and verify the if not empty
-export function setToken (newToken) {
-  // Invalidate the previous token
-  // TODO (Ted): I'm getting a 'Failed to fetch' error when I attempt this.
-  //             I'm not sure if the request was successful or not.
-  if (userIsLoggedIn() && token !== newToken) {
-    fetch(IAM_API_URL + '/users/self/login', 'DELETE').catch(err => {
-      // Failed to invalidate old JWT
-      console.error(err.message)
-    })
-  }
+// Set a new token
+export async function setToken (token) {
+  localStorage.setItem('token', token)
+  await isUserLoggedIn()
+}
 
-  // Update and validate new token
-  token = newToken
-  if (userIsLoggedIn()) {
-    fetch(IAM_API_URL + '/users/self/token').catch(err => {
-      // Failed to validate old JWT
-      console.error(err.message)
-      token = ''
-    })
-  }
+export function clearToken () {
+  // TODO (Ted): I'm getting a 'Failed to fetch' error when I attempt this.
+  fetch(IAM_API_URL + '/users/self/login', 'DELETE').catch(err => console.error(err.message))
+  localStorage.removeItem('token')
 }
 
 // General method for making calls to the Netsoc API
-// TODO: do we need custom request headers?
 export function fetch (url, method = 'GET', body = null) {
   return new Promise((resolve, reject) => {
     // Request options
@@ -45,9 +42,9 @@ export function fetch (url, method = 'GET', body = null) {
       headers: {}
     }
 
-    // Authenticate with JWT if set
-    if (userIsLoggedIn()) {
-      options.headers.Authorization = 'Bearer ' + token
+    // Authenticate with token if set
+    if (localStorage.getItem('token') !== null) {
+      options.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
     }
 
     // Create the request

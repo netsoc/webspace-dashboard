@@ -1,6 +1,14 @@
 <template>
-  <div class="Error">
-    <p>Error {{ errorCode }}</p>
+  <div class="error">
+    <h2>{{ errorTitle }}</h2>
+    <p>{{ errorDetails }}</p>
+    <br>
+    <button @click="$router.replace('/')">
+      Home
+    </button>
+    <button @click="$router.go(-1)">
+      Back
+    </button>
   </div>
 </template>
 
@@ -8,8 +16,12 @@
 export default {
   name: 'Error',
   props: {
-    errorCode: {
-      type: Number,
+    errorTitle: {
+      type: String,
+      required: true
+    },
+    errorDetails: {
+      type: String,
       required: true
     }
   }
@@ -17,13 +29,10 @@ export default {
 </script>
 
 <style scoped>
-.Error {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  font-size: 40px;
-  font-weight: 600;
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
 }
 </style>

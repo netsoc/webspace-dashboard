@@ -89,7 +89,6 @@
     <br>
     <br>
     <button
-      :disabled="!webspaceConfig.image"
       @click="initiateWebspace"
     >
       Initiate Webspace
@@ -98,15 +97,24 @@
       <br>
       <p>Loading...</p>
     </div>
+    <ErrorPopup
+      :error-details="errorMessage"
+      @on-error-handled="onErrorHandled"
+    />
   </div>
 </template>
 
 <script>
 import * as API from '@/API.js'
+import ErrorPopup from '@/components/ErrorPopup.vue'
 export default {
   name: 'CreateWebspace',
+  components: {
+    ErrorPopup
+  },
   data () {
     return {
+      errorMessage: '',
       isLoading: false,
       availableImages: null,
       webspaceConfig: {
@@ -141,12 +149,20 @@ export default {
         const images = await API.fetch(API.WEBSPACED_API_URL + '/images')
         this.availableImages = images
       } catch (err) {
-        // TODO: show error in HTML instead - maybe even navigate to an network error page?
-        alert('Unable to fetch available OS images: ' + err.message)
+        this.errorMessage = 'Unable to fetch available LXD images: ' + err.message
       }
     },
     // Executed when user clicks "Initiate Webspace" button
     async initiateWebspace () {
+      if (!this.webspaceConfig.image) {
+        this.errorMessage = 'Please select an LXD image!'
+        return
+      }
+      if (this.webspaceConfig.password && this.webspaceConfig.password !== this.webspaceConfig.passwordConfirmation) {
+        this.errorMessage = 'Passwords do not match!'
+        return
+      }
+
       this.isLoading = true
       try {
         const body = { 'image': this.webspaceConfig.image.aliases[0].name }
@@ -154,10 +170,13 @@ export default {
         // TODO: apply checkbox options
         this.$router.push('config')
       } catch (err) {
-        // TODO: show error in HTML instead
-        alert('Unable to initialize new webspace: ' + err.message)
+        this.errorMessage = 'Unable to initialize new webspace: ' + err.message
       }
       this.isLoading = false
+    },
+    // Executed after the user clicks OK during an error popup
+    onErrorHandled () {
+      this.errorMessage = ''
     }
   }
 }

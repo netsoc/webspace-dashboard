@@ -1,119 +1,102 @@
 <template>
-  <div class="CreateWebspace">
-    <div v-if="!isLoading">
-      <h2>Create Webspace</h2>
-      <p>Create and initialize your new webspace.</p>
-      <p>Learn more <a href="">here</a>.</p>
+  <div class="create-webspace">
+    <h2>Create Webspace</h2>
+    <p>Create and initialize your new webspace.</p>
+    <p>Learn more <a href="">here</a>.</p>
 
-      <h3>Select an LXD Image</h3>
-      <select
-        v-model="webspaceConfig.image"
-        class="select-menu image-selection-menu"
+    <h3>Select an LXD Image</h3>
+    <select
+      v-model="webspaceConfig.image"
+      class="select-menu"
+    >
+      <option
+        disabled
+        :value="null"
       >
-        <option
-          disabled
-          :value="null"
-        >
-          Select an Image
-        </option>
-        <option
-          v-for="image in availableImages"
-          :key="image.id"
-          :value="image"
-        >
-          {{ image.aliases[0].name }}
-        </option>
-      </select>
-      <div
-        v-if="webspaceConfig.image"
-        class="image-details-section"
+        Select an Image
+      </option>
+      <option
+        v-for="image in availableImages"
+        :key="image.id"
+        :value="image"
       >
-        <div style="width: 50px">
-          <p>icon</p>
-          <p>here</p>
-        </div>
-        <div>
-          <p><b>{{ webspaceConfig.image.properties.description }}</b></p>
-          <p>{{ bytesToHumanReadable(webspaceConfig.image.size) }}</p>
-        </div>
-      </div>
-
-      <h3>Give the Webspace a Password</h3>
-      <input
-        v-model="webspaceConfig.password"
-        class="webspace-password-input"
-        type="password"
-        placeholder="Password (optional)"
-      >
-      <div v-if="webspaceConfig.password.length != 0">
-        <input
-          v-model="webspaceConfig.passwordConfirmation"
-          class="webspace-password-input"
-          type="password"
-          placeholder="Confirm Password"
-        >
-        <div v-if="webspaceConfig.password === webspaceConfig.passwordConfirmation">
-          <p>match!</p>
-        </div>
-      </div>
-
-      <h3>Additional Configuration</h3>
-      <input
-        id="webspaceSSHEnabled"
-        v-model="webspaceConfig.SSHEnabled"
-        class="additional-config-checkbox"
-        type="checkbox"
-      >
-      <label for="webspaceSSHEnabled">Enable SSH</label>
+        {{ image.aliases[0].name }}
+      </option>
+    </select>
+    <div v-if="webspaceConfig.image">
       <br>
-      <div
-        v-if="webspaceConfig.SSHEnabled"
-        class="additional-config-ssh-section"
-      >
-        <input
-          id="webspaceSSHPasswordEnabled"
-          v-model="webspaceConfig.SSHPasswordEnabled"
-          class="additional-config-checkbox"
-          type="checkbox"
-        >
-        <label for="webspaceSSHPasswordEnabled">Enable SSH password login</label>
-        <br>
-        <input
-          id="webspaceSSHPKAEnabled"
-          v-model="webspaceConfig.SSHPKAEnabled"
-          class="additional-config-checkbox"
-          type="checkbox"
-        >
-        <label for="webspaceSSHPKAEnabled">Generate & Enabled SSH Public Key Authentication</label>
-      </div>
-      <input
-        id="webspaceSetupNginx"
-        v-model="webspaceConfig.setupNginx"
-        class="additional-config-checkbox"
-        type="checkbox"
-      >
-      <label for="webspaceSetupNginx">Setup nginx webserver</label>
-      <br>
-      <input
-        id="webspaceBootImmediately"
-        v-model="webspaceConfig.bootImmediately"
-        class="additional-config-checkbox"
-        type="checkbox"
-      >
-      <label for="webspaceBootImmediately">Boot immediately</label>
-      <br>
-      <button
-        class="primary-button"
-        @click="initiateWebspace"
-      >
-        Initiate Webspace
-      </button>
+      <p><b>{{ webspaceConfig.image.properties.description }}</b></p>
+      <p>{{ bytesToHumanReadable(webspaceConfig.image.size) }}</p>
     </div>
 
-    <div v-else>
-      <!-- TODO: Delay before showing this -->
-      <!-- TODO: Animation to show page is still responsive -->
-      <span>Loading...</span>
+    <h3>Give the Webspace a Password</h3>
+    <input
+      v-model="webspaceConfig.password"
+      type="password"
+      placeholder="Password (optional)"
+    >
+    <div v-if="webspaceConfig.password.length != 0">
+      <input
+        v-model="webspaceConfig.passwordConfirmation"
+        type="password"
+        placeholder="Confirm Password"
+      >
+      <!-- TODO: highlight red instead -->
+      <div v-if="webspaceConfig.password === webspaceConfig.passwordConfirmation">
+        <p>match!</p>
+      </div>
+    </div>
+
+    <h3>Additional Configuration</h3>
+    <input
+      id="webspaceSSHEnabled"
+      v-model="webspaceConfig.SSHEnabled"
+      type="checkbox"
+    >
+    <label for="webspaceSSHEnabled">Enable SSH</label>
+    <br>
+    <div
+      v-if="webspaceConfig.SSHEnabled"
+      style="margin-left: 20px"
+    >
+      <input
+        id="webspaceSSHPasswordEnabled"
+        v-model="webspaceConfig.SSHPasswordEnabled"
+        type="checkbox"
+      >
+      <label for="webspaceSSHPasswordEnabled">Enable SSH password login</label>
+      <br>
+      <input
+        id="webspaceSSHPKAEnabled"
+        v-model="webspaceConfig.SSHPKAEnabled"
+        type="checkbox"
+      >
+      <label for="webspaceSSHPKAEnabled">Generate & Enabled SSH Public Key Authentication</label>
+    </div>
+    <input
+      id="webspaceSetupNginx"
+      v-model="webspaceConfig.setupNginx"
+      type="checkbox"
+    >
+    <label for="webspaceSetupNginx">Setup nginx webserver</label>
+    <br>
+    <input
+      id="webspaceBootImmediately"
+      v-model="webspaceConfig.bootImmediately"
+      type="checkbox"
+    >
+    <label for="webspaceBootImmediately">Boot immediately</label>
+    <br>
+    <br>
+    <button
+      :disabled="!webspaceConfig.image"
+      @click="initiateWebspace"
+    >
+      Initiate Webspace
+    </button>
+    <div v-if="isLoading">
+      <br>
+      <p>Loading...</p>
     </div>
   </div>
 </template>
@@ -124,10 +107,8 @@ export default {
   name: 'CreateWebspace',
   data () {
     return {
-      isLoading: true,
-      // Array of images fetched
+      isLoading: false,
       availableImages: null,
-      // New webspace configuration
       webspaceConfig: {
         image: null,
         password: '',
@@ -156,7 +137,6 @@ export default {
     },
     // Retrieves all the available LDX images from the Netsoc Webspaced API
     async fetchAvailableImages () {
-      this.isLoading = true
       try {
         const images = await API.fetch(API.WEBSPACED_API_URL + '/images')
         this.availableImages = images
@@ -164,7 +144,6 @@ export default {
         // TODO: show error in HTML instead - maybe even navigate to an network error page?
         alert('Unable to fetch available OS images: ' + err.message)
       }
-      this.isLoading = false
     },
     // Executed when user clicks "Initiate Webspace" button
     async initiateWebspace () {
@@ -172,7 +151,8 @@ export default {
       try {
         const body = { 'image': this.webspaceConfig.image.aliases[0].name }
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'POST', body)
-        this.$router.push('managewebspace')
+        // TODO: apply checkbox options
+        this.$router.push('config')
       } catch (err) {
         // TODO: show error in HTML instead
         alert('Unable to initialize new webspace: ' + err.message)
@@ -184,27 +164,14 @@ export default {
 </script>
 
 <style>
-  .CreateWebspace {
-        display: flex;
-        justify-content: left;
-        align-items: left;
-        text-align: left;
-        height: 100%;
-        width: 100%;
-        font-weight: 600;
-        margin-left: 20px;
-        margin-top: 20px;
-  }
+.create-webspace {
+  margin-left: 20px;
+  margin-top: 20px;
 
-  .context {
-    text-align: left;
-    margin-left: 10px;
-  }
-
-  select .image-select-menu {
-    font-weight: bold;
-    margin: 0px 0px 10px 0px;
-    width: 200px;
-  }
+  /* TODO: this is just undoing the global styling in App.vue */
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+}
 
 </style>

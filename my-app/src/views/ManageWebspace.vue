@@ -1,6 +1,6 @@
 <template>
   <div>
-      <p>Manage Webspace</p>
+    <p>Manage Webspace</p>
     <h3>Click here to destroy your Webspace</h3>
     <div class="buttons">
       <button @click="destroyWebspace">

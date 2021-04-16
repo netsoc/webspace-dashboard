@@ -39,7 +39,7 @@
     Processes : {{ webspaceState.usage.processes }} <br>
     <br>
     <div v-if="webspaceState.running">
-      <h3>Resource Usage</h3>
+      <h3>Network</h3>
       <status-indicator
         active
         pulse
@@ -50,18 +50,21 @@
       packetsReceived:  {{ webspaceState.networkInterfaces.eth0.counters.packetsReceived }}<br>
       packetsSent: {{ webspaceState.networkInterfaces.eth0.counters.packetsSent }}<br>
     </div>
+    <MemoryLineGraph />
   </div>
 </template>
 
 <script>
 import * as API from '@/API.js'
+import MemoryLineGraph from '@/components/MemoryLineGraph.vue'
 export default {
 
   name: 'ManageWebspaceStatus',
+  components: { MemoryLineGraph },
 
   data () {
     return {
-      statusRect: null,
+      exit: false,
       // the webspace status
       webspaceState: {
         running: null,
@@ -93,21 +96,19 @@ export default {
   },
   created () {
     this.fetchWebspacesState()
-    // this.drawStatusRect()
+    this.pollData()
   },
-
   methods: {
     async fetchWebspacesState () {
-      this.isLoading = true
+      this.userStatus()
       try {
         this.webspaceState = await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/state', 'GET')
-        console.log(this.webspaceState)
       } catch (err) {
-        alert('Unable to find webspace state data: ' + err.message)
+        if (this.exit) {
+          alert('Unable to find webspace state data: ' + err.message)
+        }
       }
-      this.isLoading = false
-      // this.checkContainer()
-      // console.log('isRunning = ' + this.isRunning + this.webspaceState)
+      return this.webspaceState
     },
 
     async reGenerateWebspacesConfig () {
@@ -161,9 +162,29 @@ export default {
       var mins = Math.trunc((runtime % 3600) / 60)
       var secs = Math.trunc(runtime % 60)
       return (hrs + 'h ' + mins + 'm ' + secs + 's')
+    },
+    bytesToMB (bytes) {
+      const decimalPlaces = 2
+      const unitSizes = 1024
+      return (bytes / Math.pow(unitSizes, 2)).toFixed(decimalPlaces)
+    },
+    pollData () {
+      if (this.userStatus()) {
+        this.polling = setInterval(() => {
+          this.fetchWebspacesState()
+        }, 2000)
+      } else {
+        clearInterval(this.polling)
+        console.log('Debug')
+      }
+    },
+    async userStatus () {
+      this.exit = await API.isUserLoggedIn()
+      return this.exit
     }
   }
 }
+
 </script>
 
 <style>

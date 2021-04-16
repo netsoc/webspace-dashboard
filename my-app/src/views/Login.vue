@@ -86,6 +86,7 @@ export default {
   transform: translate(-50%, -50%);
   box-sizing: border-box;
   box-shadow: 8px 8px 50px #0055FF;
+  border-radius: 50px;
 }
 .login h1 {
   font-size: 40px;

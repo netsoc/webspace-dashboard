@@ -74,5 +74,12 @@ Reboot will reset all the collected webspace details resource usage and network 
 Shut down container will close the container and change container status to offline. The webspace container 
 status will also be cleared along with the memory usage graph.
 
-## Welcome to MkDocs
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+## Webspace Console
+The webpspace console log is retirved once the entering the 'Console' page. There is an option to clear 
+webspace console log if required.
+Below that a webspace console is given made using xterm.js. The webspace console allows users to perform 
+all webspace configurations and management via the termainal.
+
+## Logout
+Once the logout button is pressed, the changes made to the webspace will be saved and then the user 
+is logged out.

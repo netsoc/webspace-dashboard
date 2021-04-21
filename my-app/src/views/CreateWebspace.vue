@@ -112,6 +112,17 @@ export default {
   components: {
     ErrorPopup
   },
+  // When to prevent routing to this component
+  async beforeRouteEnter (to, from, next) {
+    if (await API.isUserLoggedIn()) {
+      await API.fetch(API.WEBSPACED_API_URL + '/webspace/self')
+        .then(() => next('status')) // Redirect users already with a webspace
+        .catch(() => next()) // Accept users without a webspace
+    } else {
+      next('login') // Redirect non-logged in users
+    }
+  },
+  // Variables used within this component
   data () {
     return {
       errorMessage: '',

@@ -39,6 +39,13 @@
 import * as API from '@/API.js'
 export default {
   name: 'Login',
+  async beforeRouteEnter (to, from, next) {
+    if (await API.isUserLoggedIn()) {
+      next('status') // Redirect already logged in users
+    } else {
+      next() // Accept non-logged in users
+    }
+  },
   data () {
     return {
       username: '',
@@ -51,7 +58,7 @@ export default {
         const body = { 'password': this.password }
         const data = await API.fetch(`${API.IAM_API_URL}/users/${this.username}/login`, 'POST', body)
         API.setToken(data.token)
-        this.$router.push('account')
+        this.$router.push('status')
       } catch (err) {
         // TODO: show an error in HTML instead
         alert('Unable to login: ' + err.message)

@@ -3,27 +3,22 @@ import AboutView from '@/views/About.vue'
 import DocsView from '@/views/Docs.vue'
 import LoginView from '@/views/Login.vue'
 import CreateWebspaceView from '@/views/CreateWebspace.vue'
-// import ManageWebspaceView from '@/views/ManageWebspace.vue'
 import AccountView from '@/views/Account.vue'
-import WebspaceConfiguration from '@/views/WebspaceConfiguration.vue'
-import Status from '@/views/Status.vue'
+import WebspaceConfigView from '@/views/WebspaceConfiguration.vue'
+import StatusView from '@/views/Status.vue'
 import ErrorView from '@/views/Error.vue'
-import Console from '@/views/Console.vue'
+import ConsoleView from '@/views/Console.vue'
 
-// TODO: user beforeEach() to check if a route is valid for the state of the user.
-// e.g. don't let users without an authentication token access /account
-// or don't let users with a token access /login
 const routes = [
-  { path: '/', component: LoginView },
-  { path: '/about', component: AboutView },
+  { path: '/', component: AboutView },
+  { path: '/login', component: LoginView },
   { path: '/docs', component: DocsView },
   { path: '/createwebspace', component: CreateWebspaceView },
-  // { path: '/managewebspace', component: ManageWebspaceView },
+  { path: '/status', component: StatusView },
+  { path: '/config', component: WebspaceConfigView },
   { path: '/account', component: AccountView },
-  { path: '/config', component: WebspaceConfiguration },
-  { path: '/status', component: Status },
-  { path: '/console', component: Console },
-  { path: '/:pathMatch(.*)', component: ErrorView, props: { errorCode: 404 } }
+  { path: '/console', component: ConsoleView },
+  { path: '/:pathMatch(.*)', component: ErrorView, props: { errorTitle: 'Page not found!', errorDetails: 'Could not find requested page.' } }
 ]
 
 const router = createRouter({

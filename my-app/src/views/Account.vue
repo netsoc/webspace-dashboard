@@ -5,9 +5,15 @@
 </template>
 
 <script>
-
+import * as API from '@/API.js'
 export default {
-
+  async beforeRouteEnter (to, from, next) {
+    if (await API.isUserLoggedIn()) {
+      next() // Accept logged in users
+    } else {
+      next('login') // Redirect non-logged in users
+    }
+  }
 }
 </script>
 

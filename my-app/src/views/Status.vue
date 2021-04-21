@@ -62,6 +62,17 @@ export default {
   name: 'ManageWebspaceStatus',
   components: { LineGraph },
 
+  // When to prevent routing to this component
+  async beforeRouteEnter (to, from, next) {
+    if (await API.isUserLoggedIn()) {
+      await API.fetch(API.WEBSPACED_API_URL + '/webspace/self')
+        .then(() => next()) // Accept users with a webspace
+        .catch(() => next('createwebspace')) // Redirect users without a webspace
+    } else {
+      next('login') // Redirect non-logged in users
+    }
+  },
+
   data () {
     return {
       exit: false,

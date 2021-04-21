@@ -6,7 +6,7 @@
 import * as d3 from 'd3'
 import * as API from '@/API.js'
 export default {
-  name: 'CPULineGraph',
+  name: 'MemoryLineGraph',
 
   data () {
     return {
@@ -28,7 +28,7 @@ export default {
           left: 40
         },
         MAX_LENGTH: 100,
-        duration: 500,
+        duration: 300,
         color: d3.schemeCategory10
       },
 
@@ -51,8 +51,8 @@ export default {
     if (this.userStatus()) {
       window.setInterval(() => {
         this.fetchWebspacesState()
-        this.updateData(this.bytesToMB(this.webspaceState.usage.cpu))
-      }, 500)
+        this.updateData(this.bytesToGB(this.webspaceState.usage.memory), this.bytesToGB(this.webspaceState.usage.cpu))
+      }, this.options.duration)
     } else {
       window.clearInterval()
     }
@@ -76,10 +76,10 @@ export default {
       return this.exit
     },
 
-    bytesToMB (bytes) {
+    bytesToGB (bytes) {
       const decimalPlaces = 2
       const unitSizes = 1024
-      return (bytes / Math.pow(unitSizes, 2)).toFixed(decimalPlaces)
+      return (bytes / Math.pow(unitSizes, 3)).toFixed(decimalPlaces)
     },
 
     init () {
@@ -95,7 +95,7 @@ export default {
     draw () {
       var self = this
       // Based on https://bl.ocks.org/mbostock/3884955
-      self.data = ['cpu'].map(function (c) {
+      self.data = ['memory', 'cpu'].map(function (c) {
         return {
           label: c,
           values: self.dataSource.map(function (d) {
@@ -200,12 +200,13 @@ export default {
       g.selectAll('g .legend text')
         .data(self.data)
         .text(function (d) {
-          return d.label + ': ' + d.values[d.values.length - 1].value + 'MB'
+          return d.label + ': ' + d.values[d.values.length - 1].value + 'GB'
         })
 
       // For transitions https://bl.ocks.org/mbostock/1642874
       function tick () {
       // Redraw the line.
+        // console.log(this)
         d3.select(this)
           .attr('d', function (d) { return line(d.values) })
           .attr('transform', null)
@@ -233,15 +234,17 @@ export default {
       for (var i = 0; i < this.options.MAX_LENGTH; ++i) {
         this.dataSource.push({
           time: new Date(now.getTime() - ((100 - i) * 500)),
+          memory: 0,
           cpu: 0
         })
       }
     },
 
-    updateData (cpu) {
+    updateData (memory, cpu) {
       var now = new Date()
       var lineData = {
         time: now,
+        memory: memory,
         cpu: cpu
       }
       this.dataSource.push(lineData)

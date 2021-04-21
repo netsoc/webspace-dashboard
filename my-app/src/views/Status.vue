@@ -50,17 +50,17 @@
       packetsReceived:  {{ webspaceState.networkInterfaces.eth0.counters.packetsReceived }}<br>
       packetsSent: {{ webspaceState.networkInterfaces.eth0.counters.packetsSent }}<br>
     </div>
-    <MemoryLineGraph />
+    <LineGraph />
   </div>
 </template>
 
 <script>
 import * as API from '@/API.js'
-import MemoryLineGraph from '@/components/MemoryLineGraph.vue'
+import LineGraph from '@/components/LineGraph.vue'
 export default {
 
   name: 'ManageWebspaceStatus',
-  components: { MemoryLineGraph },
+  components: { LineGraph },
 
   data () {
     return {

@@ -11,8 +11,6 @@
       <button @click="resetWebspace">
         Reset Webspace
       </button>
-      <!-- dunno if this should be here -->
-      <!--
       <h3>Select an LXD Image</h3>
       <select
         v-model="webspaceConfig.image"
@@ -36,7 +34,6 @@
         v-if="webspaceConfig.image"
         class="image-details-section"
       </div>
-    -->
     </div>
   </div>
 </template>
@@ -47,10 +44,9 @@ export default {
   name: 'ManageWebspace',
   data () {
     return {
+      errorMessage: '',
       isLoading: true,
-      // Array of images fetched
       availableImages: null
-      // Does new webspace configuration go here? or is the API call enough
     }
   },
   methods: {
@@ -60,28 +56,16 @@ export default {
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'DELETE')
         this.$router.push('createwebspace')
       } catch (err) {
-        alert('Unable to destroy webspace' + err.message)
+        this.errorMessage = 'Unable to destroy webspace'
       }
     },
-    // Retrieves all the available LDX images from the Netsoc Webspaced API
-    // Duplication of code from create webspace component
-    async fetchAvailableImages () {
-      this.isLoading = true
-      try {
-        const images = await API.fetch(API.WEBSPACED_API_URL + '/images')
-        this.availableImages = images
-      } catch (err) {
-        // TODO: show error in HTML instead - maybe even navigate to an network error page?
-        alert('Unable to fetch available OS images: ' + err.message)
-      }
-      this.isLoading = false
-    },
+
     async resetWebspace () {
       try {
         confirm('are you sure you want to reset this webspace?')
-        // ask them which LXD image they want
-        // **pop in teds dropdown menu stuff here
-        this.fetchAvailableImages()
+        // unable to retrieve the image the user was previously using so have to ask the user to select an image
+        this.$fetchAvailableImages()
+        // this.image;
         // retrieve the webspace and config stuff (3x GET requests)
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'GET')
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/domains', 'GET')
@@ -89,15 +73,14 @@ export default {
         // delete the webspace
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'DELETE')
         // Initialise the new webspace
-        // not sure if this will apply the selected image or not
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self', 'POST')
         // Apply all the configurations
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'POST')
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/domains', 'POST')
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/ports', 'POST')
-        // I presume theres no notification method needed here?
+        alert('Your webspace has been reset')
       } catch (err) {
-        alert('Unable to reset webspace ' + err.message)
+        this.errorMessage = 'Unable to reset webspace '
       }
     }
   }

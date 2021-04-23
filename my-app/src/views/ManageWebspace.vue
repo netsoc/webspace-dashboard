@@ -11,6 +11,7 @@
       <button @click="resetWebspace">
         Reset Webspace
       </button>
+      <!--
       <h3>Select an LXD Image</h3>
       <select
         v-model="webspaceConfig.image"
@@ -34,6 +35,7 @@
         v-if="webspaceConfig.image"
         class="image-details-section"
       </div>
+      -->
     </div>
   </div>
 </template>
@@ -46,7 +48,8 @@ export default {
     return {
       errorMessage: '',
       isLoading: true,
-      availableImages: null
+      availableImages: null,
+      image: null
     }
   },
   methods: {
@@ -64,7 +67,7 @@ export default {
       try {
         confirm('are you sure you want to reset this webspace?')
         // unable to retrieve the image the user was previously using so have to ask the user to select an image
-        this.$fetchAvailableImages()
+        // this.$fetchAvailableImages()
         // this.image;
         // retrieve the webspace and config stuff (3x GET requests)
         await API.fetch(API.WEBSPACED_API_URL + '/webspace/self/config', 'GET')

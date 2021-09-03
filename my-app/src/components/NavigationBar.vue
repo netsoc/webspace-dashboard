@@ -14,26 +14,6 @@
     </div>
     <div class="menu-items">
       <router-link
-        to="/"
-        active-class="active"
-        tag="button"
-        class="side-buttons"
-      >
-        <div class="link-container">
-          About
-        </div>
-      </router-link>
-      <router-link
-        to="/docs"
-        active-class="active"
-        tag="button"
-        class="side-buttons"
-      >
-        <div class="link-container">
-          Docs
-        </div>
-      </router-link>
-      <router-link
         v-if="isUserLoggedIn && !isWebspaceInitialized"
         to="/createwebspace"
         active-class="active"
@@ -42,17 +22,6 @@
       >
         <div class="link-container">
           Create Webspace
-        </div>
-      </router-link>
-      <router-link
-        v-if="isUserLoggedIn"
-        to="/account"
-        active-class="active"
-        tag="button"
-        class="side-buttons"
-      >
-        <div class="link-container">
-          Account
         </div>
       </router-link>
       <router-link

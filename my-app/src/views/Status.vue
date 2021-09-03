@@ -50,17 +50,16 @@
       packetsReceived:  {{ webspaceState.networkInterfaces.eth0.counters.packetsReceived }}<br>
       packetsSent: {{ webspaceState.networkInterfaces.eth0.counters.packetsSent }}<br>
     </div>
-    <LineGraph />
   </div>
 </template>
 
 <script>
 import * as API from '@/API.js'
-import LineGraph from '@/components/LineGraph.vue'
+// import LineGraph from '@/components/LineGraph.vue'
 export default {
 
   name: 'ManageWebspaceStatus',
-  components: { LineGraph },
+  // components: { LineGraph },
 
   // When to prevent routing to this component
   async beforeRouteEnter (to, from, next) {

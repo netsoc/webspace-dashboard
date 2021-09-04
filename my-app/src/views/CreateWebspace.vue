@@ -2,7 +2,7 @@
   <div class="create-webspace">
     <h2>Create Webspace</h2>
     <p>Create and initialize your new webspace.</p>
-    <p>Learn more <a href="">here</a>.</p>
+    <p>Learn more <a href="https://docs.netsoc.ie/webspaced/">here</a>.</p>
 
     <h3>Select an LXD Image</h3>
     <select

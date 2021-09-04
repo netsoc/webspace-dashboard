@@ -1,6 +1,6 @@
 <template>
   <div class="status">
-    <h1>Webspaces State</h1>
+    <h1>Webspace Status</h1>
     <br>
     <div v-if="webspaceState.running">
       <div class="indicator">
@@ -33,10 +33,10 @@
     </div>
     <br>
     <h3>Resource Usage</h3>
-    CPU : {{ webspaceState.usage.cpu }} <br>
-    Disk : {{ webspaceState.usage.disks.root }} <br>
-    Memory : {{ webspaceState.usage.memory }} <br>
-    Processes : {{ webspaceState.usage.processes }} <br>
+    CPU time : {{ webspaceState.usage.cpu / 1000000 }}ms<br>
+    Disk usage : {{ (webspaceState.usage.disks.root / 1048576).toFixed(0) }} MiB<br>
+    Memory usage : {{ (webspaceState.usage.memory / 1048576).toFixed(0) }} MiB<br>
+    Running processes : {{ webspaceState.usage.processes }} <br>
     <br>
     <div v-if="webspaceState.running">
       <h3>Network</h3>
@@ -45,10 +45,8 @@
         pulse
       />
       <p>eth0</p> {{ webspaceState.networkInterfaces.eth0.mac }} <br>
-      bytesReceived: {{ webspaceState.networkInterfaces.eth0.counters.bytesReceived }}<br>
-      bytesSent:  {{ webspaceState.networkInterfaces.eth0.counters.bytesSent }}<br>
-      packetsReceived:  {{ webspaceState.networkInterfaces.eth0.counters.packetsReceived }}<br>
-      packetsSent: {{ webspaceState.networkInterfaces.eth0.counters.packetsSent }}<br>
+      Data sent/received: {{ (webspaceState.networkInterfaces.eth0.counters.bytesSent / 1024).toFixed(1) }} KiB/{{ (webspaceState.networkInterfaces.eth0.counters.bytesReceived / 1024).toFixed(1) }} KiB<br>
+      Packets sent/received: {{ webspaceState.networkInterfaces.eth0.counters.packetsSent }}/{{ webspaceState.networkInterfaces.eth0.counters.packetsReceived }}<br>
     </div>
   </div>
 </template>
@@ -172,11 +170,6 @@ export default {
       var mins = Math.trunc((runtime % 3600) / 60)
       var secs = Math.trunc(runtime % 60)
       return (hrs + 'h ' + mins + 'm ' + secs + 's')
-    },
-    bytesToMB (bytes) {
-      const decimalPlaces = 2
-      const unitSizes = 1024
-      return (bytes / Math.pow(unitSizes, 2)).toFixed(decimalPlaces)
     },
     pollData () {
       if (this.userStatus()) {

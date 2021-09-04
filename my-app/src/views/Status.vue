@@ -47,6 +47,19 @@
       <p>eth0</p> {{ webspaceState.networkInterfaces.eth0.mac }} <br>
       Data sent/received: {{ (webspaceState.networkInterfaces.eth0.counters.bytesSent / 1024).toFixed(1) }} KiB/{{ (webspaceState.networkInterfaces.eth0.counters.bytesReceived / 1024).toFixed(1) }} KiB<br>
       Packets sent/received: {{ webspaceState.networkInterfaces.eth0.counters.packetsSent }}/{{ webspaceState.networkInterfaces.eth0.counters.packetsReceived }}<br>
+      <div
+        v-for="address in webspaceState.networkInterfaces.eth0.addresses"
+        :key="address.id"
+        :value="address"
+      >
+        <p v-if="address.family === 'inet'">
+          IPv4
+        </p>
+        <p v-if="address.family === 'inet6'">
+          IPv6
+        </p>
+        address: {{ address.address }}/{{ address.netmask }}<br>
+      </div>
     </div>
   </div>
 </template>
